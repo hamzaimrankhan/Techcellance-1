@@ -1,0 +1,42 @@
+####################################################################
+## DEFAULT CACHE CONFIGURATIONS
+####################################################################
+default.cacheattributes=org.apache.jcs.engine.CompositeCacheAttributes
+jcs.default.cacheattributes.MaxObjects=1000
+jcs.default.cacheattributes.MemoryCacheName=org.apache.jcs.engine.memory.lru.LRUMemoryCache
+jcs.default.cacheattributes.MaxMemoryIdleTimeSeconds=3600
+jcs.default.cacheattributes.UseMemoryShrinker=false
+jcs.default.elementattributes=org.apache.jcs.engine.ElementAttributes
+jcs.default.elementattributes.IsEternal=true
+jcs.default.elementattributes.IdleTime=-1
+jcs.default.elementattributes.IsSpool=true
+jcs.default.elementattributes.IsRemote=false
+jcs.default.elementattributes.IsLateral=false
+
+
+#################################################################### 
+## COMO_FILE_CONFIGURATION
+####################################################################
+jcs.region.comoFileConfiguration=
+jcs.region.comoFileConfiguration.cacheattributes=org.apache.jcs.engine.CompositeCacheAttributes
+jcs.region.comoFileConfiguration.cacheattributes.MaxObjects=5000
+jcs.region.comoFileConfiguration.cacheattributes.MemoryCacheName=org.apache.jcs.engine.memory.lru.LRUMemoryCache
+jcs.region.comoFileConfiguration.cacheattributes.MaxMemoryIdleTimeSeconds=-1
+jcs.region.comoFileConfiguration.cacheattributes.UseMemoryShrinker=false
+jcs.region.comoFileConfiguration.cacheattributes.MaxSpoolPerRun=10000
+jcs.region.comoFileConfiguration.elementattributes=org.apache.jcs.engine.ElementAttributes
+jcs.region.comoFileConfiguration.elementattributes.IsEternal=true
+
+#################################################################### 
+## SCHD_TASK_CONFIG_PARAMS
+####################################################################
+jcs.region.schdTaskConfigParams=
+jcs.region.schdTaskConfigParams.cacheattributes=org.apache.jcs.engine.CompositeCacheAttributes
+jcs.region.schdTaskConfigParams.cacheattributes.MaxObjects=5000
+jcs.region.schdTaskConfigParams.cacheattributes.MemoryCacheName=org.apache.jcs.engine.memory.lru.LRUMemoryCache
+jcs.region.schdTaskConfigParams.cacheattributes.MaxMemoryIdleTimeSeconds=-1
+jcs.region.schdTaskConfigParams.cacheattributes.UseMemoryShrinker=false
+jcs.region.schdTaskConfigParams.cacheattributes.MaxSpoolPerRun=10000
+jcs.region.schdTaskConfigParams.elementattributes=org.apache.jcs.engine.ElementAttributes
+jcs.region.schdTaskConfigParams.elementattributes.IsEternal=true
+###################################################################

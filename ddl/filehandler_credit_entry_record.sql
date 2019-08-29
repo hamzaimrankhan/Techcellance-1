@@ -1,0 +1,43 @@
+
+DROP TABLE IF EXISTS `credit_entry_record`;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `credit_entry_record` (
+  `sr_no` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_number` varchar(255) DEFAULT NULL,
+  `agent_code` varchar(255) DEFAULT NULL,
+  `authorization_id` varchar(255) DEFAULT NULL,
+  `response_code` varchar(45) DEFAULT NULL,
+  `response_description` varchar(255) DEFAULT NULL,
+  `card_number` varchar(255) DEFAULT NULL,
+  `document_number` varchar(255) DEFAULT NULL,
+  `card_type` varchar(45) DEFAULT NULL,
+  `approval_code` varchar(255) DEFAULT NULL,
+  `passenger` varchar(255) DEFAULT NULL,
+  `amount` varchar(255) DEFAULT NULL,
+  `ticket_code` varchar(255) DEFAULT NULL,
+  `currency` varchar(255) DEFAULT NULL,
+  `ariline_code` varchar(255) DEFAULT NULL,
+  `passenger_code` varchar(255) DEFAULT NULL,
+  `departure_airport` varchar(255) DEFAULT NULL,
+  `arrival_airport` varchar(255) DEFAULT NULL,
+  `stop_over_code` varchar(255) DEFAULT NULL,
+  `issuer_city` varchar(255) DEFAULT NULL,
+  `merchant_agreement_id` varchar(255) DEFAULT NULL,
+  `invoice_name` varchar(255) DEFAULT NULL,
+  `airline_name` varchar(255) DEFAULT NULL,
+  `file_sr_no` double DEFAULT NULL,
+  `batch_no` varchar(255) DEFAULT NULL,
+  `invoice_date` varchar(255) DEFAULT NULL,
+  `mid` varchar(255) DEFAULT NULL,
+  `flight_code` varchar(255) DEFAULT NULL,
+  `departure_date` varchar(45) DEFAULT NULL,
+  `departure_month` varchar(45) DEFAULT NULL,
+  `tax_amount` double DEFAULT NULL,
+  `ticket_restricted` varchar(45) DEFAULT NULL,
+  `transaction_type` varchar(45) DEFAULT NULL,
+  `file_type` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`sr_no`),
+  UNIQUE KEY `sr_no_UNIQUE` (`sr_no`),
+  KEY `file_sr_no_idx` (`file_sr_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=349 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+

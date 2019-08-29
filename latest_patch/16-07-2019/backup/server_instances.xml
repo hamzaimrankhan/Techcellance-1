@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<data grt_format="2.0">
+  <value _ptr_="00000204DA92C9D0" type="list" content-type="object" content-struct-name="db.mgmt.ServerInstance">
+    <value type="object" struct-name="db.mgmt.ServerInstance" id="{CED96159-CA82-4F7E-AEFF-8A288D690863}" struct-checksum="0x367436e2">
+      <link type="object" struct-name="db.mgmt.Connection" key="connection">{01EC23B2-3252-445B-9361-A09D1E6A7353}</link>
+      <value _ptr_="00000204DBAA8580" type="dict" key="loginInfo">
+        <value type="string" key="wmi.hostName"></value>
+        <value type="string" key="wmi.userName"></value>
+      </value>
+      <value _ptr_="00000204DBAA85E0" type="dict" key="serverInfo">
+        <value type="string" key="basedir">C:\Program Files\MySQL\MySQL Server 8.0\</value>
+        <value type="string" key="datadir">C:\ProgramData\MySQL\MySQL Server 8.0\Data\</value>
+        <value type="string" key="errorLogFilePath">DESKTOP-3M8CHOE.err</value>
+        <value type="string" key="generalLogFilePath">DESKTOP-3M8CHOE.log</value>
+        <value type="string" key="serverVersion">8.0.15</value>
+        <value type="int" key="setupPending">0</value>
+        <value type="int" key="slowLogEnabled">1</value>
+        <value type="string" key="slowLogFilePath">DESKTOP-3M8CHOE-slow.log</value>
+        <value type="string" key="sys.config.path">C:\ProgramData\MySQL\MySQL Server 8.0\my.ini</value>
+        <value type="int" key="sys.config.path.lock">1</value>
+        <value type="string" key="sys.config.section">mysqld</value>
+        <value type="string" key="sys.mysqld.service_name">MySQL80</value>
+        <value type="string" key="sys.preset">Custom</value>
+        <value type="string" key="sys.sudo"></value>
+        <value type="string" key="sys.system">Windows</value>
+        <value type="int" key="sys.usesudo">0</value>
+        <value type="int" key="sys.usesudostatus">0</value>
+        <value type="int" key="windowsAdmin">1</value>
+      </value>
+      <value type="string" key="name">Local MySQL80</value>
+    </value>
+  </value>
+</data>

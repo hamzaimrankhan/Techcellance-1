@@ -1,0 +1,1643 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Static Analysis Report</title>
+<script type="text/javascript" src="http://svn.code.sf.net/p/javaicon/code/scripts/sorttable.js"></script>
+<style>
+		body { margin-left: 2%; margin-right: 2%; font:normal verdana,arial,helvetica; color:#000000;}
+		table.sortable th {
+			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+			font-size: 1em;
+			font-weight: bold;
+			text-align:center;
+			background:#b9b9fe;
+		}
+		table.sortable td {
+			padding: 3px;
+		}
+		table.classcount tr th { font-weight: bold; text-align:left; background:#a6caf0; }
+		table.classcount tr td { background:#eeeee0; }
+		table.pmd-summary tr th { font-size: 1em;font-weight: bold; text-align:center; background:#b9b9fe;width:120px; }
+		table.pmd-summary tr td { background:#eeeee0; text-align:center;}
+		table.pmd-category tr th { font-size: 1em;font-weight: bold; text-align:center; background:#b9b9fe;width:120px; }
+		table.pmd-category tr td { background:#eeeee0; text-align:center;}	
+		table.finbugs-category tr th { font-size: 1em;font-weight: bold; text-align:center; background:#b9b9fe;width:120px; }
+		table.finbugs-category tr td { background:#eeeee0; text-align:center;}
+		table.finbugs-summary tr th { font-size: 1em;font-weight: bold; text-align:center; background:#b9b9fe;width:120px; }
+		table.finbugs-summary tr td { background:#eeeee0; text-align:center;}
+		.td-Scariest { background:#FF9999; }
+		.td-Scary { background:#FFCC66; }
+		.td-Troubling { background:#FFFF99; }
+		.td-OfConcern { background:#9999FF; }
+		.p1 { background:#FF9999; }
+		.p2 { background:#FFCC66; }
+		.p3 { background:#FFFF99; }
+		.p4 { background:#99FF99; }
+		.p5 { background:#9999FF; }
+		div.top{text-align:right;margin:1em 0;padding:0}
+		div.top div{display:inline;white-space:nowrap}
+		div.top div.left{float:left}
+		#content>div.top{display:table;width:100%}
+		#content>div.top div{display:table-cell}
+		#content>div.top div.left{float:none;text-align:left}
+		#content>div.top div.right{text-align:right}
+		/****
+		New Additions
+		*****/
+		#Report-Jump { float: right;}
+		tr:nth-child(even) {background: white}
+		tr:nth-child(odd) {background: #EEEEEE}
+		a {
+			text-decoration: none !important;
+		}
+		#Report-Jump { float: right;}
+		tr:nth-child(even) {background: white}
+		tr:nth-child(odd) {background: #EEEEEE}
+
+		.tablerow0 {
+			background: #EEEEEE;
+		}
+
+		.tablerow1 {
+			background: white;
+		}
+
+		.detailrow0 {
+			background: #EEEEEE;
+		}
+
+		.detailrow1 {
+			background: white;
+		}
+
+		.tableheader {
+			background: #b9b9fe;
+			font-size: larger;
+		}
+
+	</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script><script>
+		$(document).ready(function(){
+
+			   var pri = $( "#minimumPriority" ).text();
+				if (pri == 1) {
+					$("div.p2").text("NA");
+					$("div.p3").text("NA");
+					$("div.p4").text("NA");
+					$("div.p5").text("NA");
+				} else if (pri == 2) {
+					$("div.p3").text("NA");
+					$("div.p4").text("NA");
+					$("div.p5").text("NA");
+			} else if (pri == "3") {
+					$("div.p4").text("NA");
+					$("div.p5").text("NA");
+			} else if (pri == "4") {
+					$("div.p5").text("NA");
+			} 
+
+		});
+	</script>
+</head>
+<body>
+<center>
+<b><span style="color:black;font-size:28px">Static Analysis Report</span></b>
+<br>
+<span>Version 4.2.3 [ Jul 15, 2019 ]</span>
+<br>
+<span style="color:red">All PMD issues with Priority 1, Priority 2 and Priority 3  MUST be Fixed.</span>
+<br>
+<span style="color:red">All SpotBugs issues with Ranking Scariest, Scary and Troubling MUST be Fixed.</span>
+<br>
+<span>Send your Feedback and Issues to StaticAnalyzerHelpdesk@i2cinc.com</span>
+<br>
+</center>
+<div class="top">
+<h1 id="PMD-Report">
+<div class="left">PMD Report</div>
+</h1>
+</div>
+<br>
+<H3 align="right">
+<div class="right">FINDINGS:  <a href="#SpotBugs-Report" id="Report-Jump-Spotbugs">Spotbugs | </a><a href="#SQL-Report" id="Report-Jump-SQL">SQL | </a><a href="#Top-Exeptions" id="Report-Jump-Top-issues">Top Issues</a>
+</div>
+</H3>
+<table border="0" class="pmd-summary" align="left">
+<tr>
+<th style="font-size: 20px;">Files</th><th style="font-size: 20px;">Total</th><th>Priority 1</th><th>Priority 2</th><th>Priority 3</th>
+</tr>
+<tr>
+<td>14</td><td>51</td><td>
+<div class="p1">25</div>
+</td><td>
+<div class="p2">0</div>
+</td><td>
+<div class="p3">26</div>
+</td>
+</tr>
+</table>
+<br>
+<br>
+<br>
+<hr>
+<p>
+<b>PMD Priority :</b> 1 (Absolutely required), 2 (Highly recommended), 3(Recommended), 4 (Optional), 5 (Highly optional)</p>
+<table border="0" width="100%" class="sortable" id="sortable_id">
+<tr>
+<th style="padding-left: 12px;height:25px;" align="center">Priority</th><th style="padding-left: 12px;height:25px;" align="center">Category</th><th align="center">File (.java/.jsp)</th><th style="padding-left: 12px;" align="center">Line</th><th align="center">Description</th>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\bl\PaymentServiceProcessor.java</td><td style="text-align:center;">50</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\config\StartupComoFileConfiguration.java</td><td style="text-align:center;">28</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\config\StartupComoFileConfiguration.java</td><td style="text-align:center;">36</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\config\StartupComoFileConfiguration.java</td><td style="text-align:center;">43</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\config\StartupComoFileConfiguration.java</td><td style="text-align:center;">48</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this Connection object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\controller\AbstractFileController.java</td><td style="text-align:center;">15</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\controller\AbstractFileController.java</td><td style="text-align:center;">28</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#avoidthrowingrawexceptiontypes">
+Avoid throwing raw exception types.
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\controller\impl\BinFileController.java</td><td style="text-align:center;">120</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\controller\impl\MidFileController.java</td><td style="text-align:center;">119</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\AbstractFileHandlerServiceDao.java</td><td style="text-align:center;">58</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\AbstractFileHandlerServiceDao.java</td><td style="text-align:center;">61</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">42</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">43</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">94</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">95</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">142</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">143</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">225</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">261</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">262</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">301</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">302</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Multithreading</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">306</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_multithreading.html#useconcurrenthashmap">
+Since Java5 brought a new implementation of the Map designed for multi-threaded access, you canperform efficient map reads without blocking other threads.[i2c: [Awain@Dec 27, 2011]My recommendation would be to use Concurrent hash map even if the problem is something else too.  There may be other related functions for concurrent systems. We will need to review all our Java code and also update our coding standards.]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">368</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">369</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">421</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">422</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">472</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">473</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">521</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">522</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">571</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">572</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">630</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this PreparedStatement object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p1">1</div>
+</td><td align="left">
+<div class="">Error Prone</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\dao\impl\FileHandlerServiceDaoImpl.java</td><td style="text-align:center;">631</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_errorprone.html#closeresource">
+Ensure that resources like this ResultSet object are closed after use [i2c(Database): Does the connection got from MI pool is returned after computation?]
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\datasource\DatabaseConnectionPool.java</td><td style="text-align:center;">13</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#classwithonlyprivateconstructorsshouldbefinal">
+A class which only has private constructors should be final
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\datasource\DatabaseConnectionPool.java</td><td style="text-align:center;">18</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\datasource\DatabaseConnectionPool.java</td><td style="text-align:center;">28</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\datasource\DatabaseConnectionPool.java</td><td style="text-align:center;">37</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\reader\AbstractFileReaderTask.java</td><td style="text-align:center;">14</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\reader\AbstractFileReaderTask.java</td><td style="text-align:center;">23</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#avoidthrowingrawexceptiontypes">
+Avoid throwing raw exception types.
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\reader\impl\BSPFileReaderTask.java</td><td style="text-align:center;">192</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\reader\impl\BSPFileReaderTask.java</td><td style="text-align:center;">243</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\reader\impl\BSPFileReaderTask.java</td><td style="text-align:center;">299</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\reader\impl\BSPFileReaderTask.java</td><td style="text-align:center;">322</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\reader\impl\BSPFileReaderTask.java</td><td style="text-align:center;">389</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\reader\impl\BSPFileReaderTask.java</td><td style="text-align:center;">398</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#signaturedeclarethrowsexception">
+A method/constructor should not explicitly throw java.lang.Exception
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\threadpool\BinEntryThreadPool.java</td><td style="text-align:center;">13</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#classwithonlyprivateconstructorsshouldbefinal">
+A class which only has private constructors should be final
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\threadpool\CreditEntryThreadPool.java</td><td style="text-align:center;">12</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#classwithonlyprivateconstructorsshouldbefinal">
+A class which only has private constructors should be final
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\threadpool\CreditFileThreadPool.java</td><td style="text-align:center;">13</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#classwithonlyprivateconstructorsshouldbefinal">
+A class which only has private constructors should be final
+</a></td>
+</tr>
+<tr>
+<td align="center">
+<div class="p3">3</div>
+</td><td align="left">
+<div class="">Design</div>
+</td><td style="text-align:left;word-break:break-all;" width="30%">com\techcellance\filehandler\threadpool\MidEntryThreadPool.java</td><td style="text-align:center;">13</td><td style="text-align:left;" width="100%"><a target="_blank" href="${pmd.website.baseurl}/pmd_rules_java_design.html#classwithonlyprivateconstructorsshouldbefinal">
+A class which only has private constructors should be final
+</a></td>
+</tr>
+</table>
+<table cellpadding="5" cellspacing="2" class="pmd-category" align="left">
+<tr>
+<h2>
+<a name="PMD-Summary"> Summary</a>
+</h2>
+<th style="width:150px;">Issue Type</th><td style="width:150px;"><b>Design</b></td><td style="width:150px;"><b>Error Prone</b></td><td style="width:150px;"><b>Multithreading</b></td><td style="width:150px;"><b>Total</b></td>
+</tr>
+<tr>
+<th>Count</th><td>
+<div name="Design_Count">26</div>
+</td><td>
+<div name="Error_Prone_Count">24</div>
+</td><td>
+<div name="Multithreading_Count">1</div>
+</td><td><b>51</b></td>
+</tr>
+</table>
+<br>
+<br>
+<br>
+<p>Generated by <a href="http://pmd.sourceforge.net">PMD <b>6.3.0</b></a> on 2019-07-25 - 16:42:50.</p>
+
+<hr/>
+<div>
+<h1>
+<div>
+<a name="SpotBugs-Report">SpotBugs Report</a>
+</div>
+</h1>
+</div>
+<h3 align="right">
+<div>FINDINGS: <a href="#PMD-Report" id="Report-Jump-PMD">PMD | </a>
+<a href="#SQL-Report" id="Report-Jump-SQL">SQL | </a>
+<a href="#Top-Exeptions" id="Report-Jump-Top-issues">Top Issues</a>
+</div>
+</h3>
+<table cellpadding="0" cellspacing="2" class="finbugs-summary" id="sortable_id">
+<tr>
+<th style="font-size: 20px;">Total</th>
+<th>Scariest</th>
+<th>Scary</th>
+<th>Troubling</th>
+</tr>
+<tr>
+<td>65</td>
+<td>
+<div class="td-Scariest">20</div>
+</td>
+<td>
+<div class="td-Scary">3</div>
+</td>
+<td>
+<div class="td-Troubling">42</div>
+</td>
+</tr>
+</table>
+<p>3476 lines of code analyzed,
+	in 46 classes, 
+	in 16 packages.</p>
+<h2>Summary</h2>
+<table cellpadding="5" cellspacing="2" class="finbugs-category" id="sortable_id">
+<tr>
+<th align="left" style="width:200px;">Issue Type</th>
+<td style="width:200px;">
+<b>Bad Practice</b>
+</td>
+<td style="width:200px;">
+<b>Correctness</b>
+</td>
+<td style="width:200px;">
+<b>Malicious Code Vulnerability</b>
+</td>
+<td style="width:200px;">
+<b>Multithreaded Correctness</b>
+</td>
+<td style="width:200px;">
+<b>Security</b>
+</td>
+<td style="width:200px;">
+<b>Total</b>
+</td>
+</tr>
+<tr>
+<th align="right">Count</th>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">37</td>
+<td align="right">4</td>
+<td align="right">20</td>
+<td align="right">
+<b>65</b>
+</td>
+</tr>
+</table>
+<p>
+<b>SpotBugs Rank:</b> Scariest (1-4), Scary (5-9), Troubling (10-14), Of Concern (15-20).</p>
+<table class="warningtable sortable" width="100%" cellspacing="2" cellpadding="5" id="sortable_id">
+<tr class="tableheader">
+<th align="left">Bug Rank</th>
+<th align="left">Category</th>
+<th align="left">Issue</th>
+<th align="left">Details</th>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Bad Practice</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#SE_BAD_FIELD">Non-transient non-serializable instance field in serializable class</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>Class com.techcellance.filehandler.beans.CreditBatchEntryAdditionalInformation defines non-transient non-serializable instance field flightInfos<br/>
+<br/>
+<br/>In file CreditBatchEntryAdditionalInformation.java,
+					
+						lines 
+						    to <br/>In class com.techcellance.filehandler.beans.CreditBatchEntryAdditionalInformation<br/>Field com.techcellance.filehandler.beans.CreditBatchEntryAdditionalInformation.flightInfos<br/>Actual type com.techcellance.filehandler.beans.FlightInformation<br/>In CreditBatchEntryAdditionalInformation.java</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scary</td>
+<td width="10%" valign="center">Correctness</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#NP_NULL_PARAM_DEREF">Method call passes null for non-null parameter</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>Null passed for non-null parameter of com.techcellance.filehandler.util.CommonUtils.populateResponseInfo(ResponseInfo, String, String, Object) in com.techcellance.filehandler.controller.impl.BinFileController.proccessFile(String)<br/>
+<br/>
+<br/>In file BinFileController.java,
+					
+						line 111<br/>In class com.techcellance.filehandler.controller.impl.BinFileController<br/>In method com.techcellance.filehandler.controller.impl.BinFileController.proccessFile(String)<br/>Called method com.techcellance.filehandler.util.CommonUtils.populateResponseInfo(ResponseInfo, String, String, Object)<br/>Argument 1 might be null but must not be null<br/>Value loaded from responseInfo<br/>Method invoked at BinFileController.java:[line 111]<br/>Null value at BinFileController.java:[line 74]<br/>Known null at BinFileController.java:[line 79]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scary</td>
+<td width="10%" valign="center">Correctness</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#NP_NULL_PARAM_DEREF">Method call passes null for non-null parameter</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>Null passed for non-null parameter of com.techcellance.filehandler.util.CommonUtils.populateResponseInfo(ResponseInfo, String, String, Object) in com.techcellance.filehandler.controller.impl.BSPFileController.proccessFile(String)<br/>
+<br/>
+<br/>In file BSPFileController.java,
+					
+						line 125<br/>In class com.techcellance.filehandler.controller.impl.BSPFileController<br/>In method com.techcellance.filehandler.controller.impl.BSPFileController.proccessFile(String)<br/>Called method com.techcellance.filehandler.util.CommonUtils.populateResponseInfo(ResponseInfo, String, String, Object)<br/>Argument 1 might be null but must not be null<br/>Value loaded from responseInfo<br/>Method invoked at BSPFileController.java:[line 125]<br/>Null value at BSPFileController.java:[line 76]<br/>Known null at BSPFileController.java:[line 81]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scary</td>
+<td width="10%" valign="center">Correctness</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#NP_NULL_PARAM_DEREF">Method call passes null for non-null parameter</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>Null passed for non-null parameter of com.techcellance.filehandler.util.CommonUtils.populateResponseInfo(ResponseInfo, String, String, Object) in com.techcellance.filehandler.controller.impl.MidFileController.proccessFile(String)<br/>
+<br/>
+<br/>In file MidFileController.java,
+					
+						line 109<br/>In class com.techcellance.filehandler.controller.impl.MidFileController<br/>In method com.techcellance.filehandler.controller.impl.MidFileController.proccessFile(String)<br/>Called method com.techcellance.filehandler.util.CommonUtils.populateResponseInfo(ResponseInfo, String, String, Object)<br/>Argument 1 might be null but must not be null<br/>Value loaded from responseInfo<br/>Method invoked at MidFileController.java:[line 109]<br/>Null value at MidFileController.java:[line 73]<br/>Known null at MidFileController.java:[line 78]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.BATCH_HEADER_IDENTIFIER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 44<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.BATCH_HEADER_IDENTIFIER<br/>At Constants.java:[line 44]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.BATCH_TRAILER_IDENTIFIER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 53<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.BATCH_TRAILER_IDENTIFIER<br/>At Constants.java:[line 53]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.BIN_FILE_HEADER_IDENTIFIER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 48<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.BIN_FILE_HEADER_IDENTIFIER<br/>At Constants.java:[line 48]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.FILE_EXT_ON_SFTP isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 41<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.FILE_EXT_ON_SFTP<br/>At Constants.java:[line 41]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.FILE_HEADER_IDENTIFIER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 42<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.FILE_HEADER_IDENTIFIER<br/>At Constants.java:[line 42]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.FILE_TRAILER_IDENTIFIER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 56<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.FILE_TRAILER_IDENTIFIER<br/>At Constants.java:[line 56]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.INVOICE_HEADER_IDENTIFIER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 43<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.INVOICE_HEADER_IDENTIFIER<br/>At Constants.java:[line 43]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.INVOICE_TRAILER_IDENTIFIER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 55<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.INVOICE_TRAILER_IDENTIFIER<br/>At Constants.java:[line 55]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.LOG4J2_CONFIG_FILE_NAME isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 22<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.LOG4J2_CONFIG_FILE_NAME<br/>At Constants.java:[line 22]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.MID_FILE_HEADER_IDENTIFER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 49<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.MID_FILE_HEADER_IDENTIFER<br/>At Constants.java:[line 49]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.PARAM_ID_CBR_THREAD_POOL_SIZE isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 32<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.PARAM_ID_CBR_THREAD_POOL_SIZE<br/>At Constants.java:[line 32]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.PARAM_ID_CFH_THREAD_POOL_SIZE isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 31<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.PARAM_ID_CFH_THREAD_POOL_SIZE<br/>At Constants.java:[line 31]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.PARAM_ID_DATABASE_CLASS isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 23<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.PARAM_ID_DATABASE_CLASS<br/>At Constants.java:[line 23]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.PARAM_ID_DATABASE_PASS isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 25<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.PARAM_ID_DATABASE_PASS<br/>At Constants.java:[line 25]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.PARAM_ID_DATABASE_URL isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 24<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.PARAM_ID_DATABASE_URL<br/>At Constants.java:[line 24]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.PARAM_ID_DATABASE_USER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 26<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.PARAM_ID_DATABASE_USER<br/>At Constants.java:[line 26]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.PARAM_ID_TEMP_FILE_PATH isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 27<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.PARAM_ID_TEMP_FILE_PATH<br/>At Constants.java:[line 27]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.TRANSACTION_BASIC_RECORD_IDENTIFIER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 45<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.TRANSACTION_BASIC_RECORD_IDENTIFIER<br/>At Constants.java:[line 45]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.TRANSACTION_OPTIONAL_RECORD_IDENTIFIER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 46<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.TRANSACTION_OPTIONAL_RECORD_IDENTIFIER<br/>At Constants.java:[line 46]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.Constants.TRANSACTION_OPTIONAL_TAX_RECORD_IDENTIFIER isn't final but should be<br/>
+<br/>
+<br/>In file Constants.java,
+					
+						line 47<br/>In class com.techcellance.filehandler.util.Constants<br/>Field com.techcellance.filehandler.util.Constants.TRANSACTION_OPTIONAL_TAX_RECORD_IDENTIFIER<br/>At Constants.java:[line 47]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.AGENT_CODE isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 15<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.AGENT_CODE<br/>At DefaultTagValues.java:[line 15]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.AGENT_NAME isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 16<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.AGENT_NAME<br/>At DefaultTagValues.java:[line 16]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.AIRLINE_CODE isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 13<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.AIRLINE_CODE<br/>At DefaultTagValues.java:[line 13]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.AIRLINE_NAME isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 14<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.AIRLINE_NAME<br/>At DefaultTagValues.java:[line 14]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.ARRIVAL_AIRPORT isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 21<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.ARRIVAL_AIRPORT<br/>At DefaultTagValues.java:[line 21]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.CARRIER_CODE isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 17<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.CARRIER_CODE<br/>At DefaultTagValues.java:[line 17]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.COUNTRY_CODE isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 8<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.COUNTRY_CODE<br/>At DefaultTagValues.java:[line 8]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.DEPARTURE_AIRPORT isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 20<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.DEPARTURE_AIRPORT<br/>At DefaultTagValues.java:[line 20]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.DOCUMENT_NUMBER isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 10<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.DOCUMENT_NUMBER<br/>At DefaultTagValues.java:[line 10]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.FARE_BASIS isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 26<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.FARE_BASIS<br/>At DefaultTagValues.java:[line 26]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.FARE_CLASS isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 25<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.FARE_CLASS<br/>At DefaultTagValues.java:[line 25]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.FIGHT_CODE isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 18<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.FIGHT_CODE<br/>At DefaultTagValues.java:[line 18]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.ISSUER_ADDRESS1 isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 5<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.ISSUER_ADDRESS1<br/>At DefaultTagValues.java:[line 5]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.ISSUER_CITY isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 7<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.ISSUER_CITY<br/>At DefaultTagValues.java:[line 7]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.PASSENGER_CODE isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 12<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.PASSENGER_CODE<br/>At DefaultTagValues.java:[line 12]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.PASSENGER_NAME isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 9<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.PASSENGER_NAME<br/>At DefaultTagValues.java:[line 9]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Malicious Code Vulnerability</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#MS_SHOULD_BE_FINAL">Field isn't final but should be</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>com.techcellance.filehandler.util.DefaultTagValues.POSTAL_CODE isn't final but should be<br/>
+<br/>
+<br/>In file DefaultTagValues.java,
+					
+						line 6<br/>In class com.techcellance.filehandler.util.DefaultTagValues<br/>Field com.techcellance.filehandler.util.DefaultTagValues.POSTAL_CODE<br/>At DefaultTagValues.java:[line 6]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Multithreaded Correctness</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#LI_LAZY_INIT_STATIC">Incorrect lazy initialization of static field</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>Incorrect lazy initialization of static field com.techcellance.filehandler.threadpool.BinEntryThreadPool.threadPool in com.techcellance.filehandler.threadpool.BinEntryThreadPool.initializePool(int)<br/>
+<br/>
+<br/>In file BinEntryThreadPool.java,
+					
+						lines 24
+						    to 28<br/>In class com.techcellance.filehandler.threadpool.BinEntryThreadPool<br/>In method com.techcellance.filehandler.threadpool.BinEntryThreadPool.initializePool(int)<br/>On field com.techcellance.filehandler.threadpool.BinEntryThreadPool.threadPool<br/>At BinEntryThreadPool.java:[lines 24-28]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Multithreaded Correctness</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#LI_LAZY_INIT_STATIC">Incorrect lazy initialization of static field</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>Incorrect lazy initialization of static field com.techcellance.filehandler.threadpool.CreditEntryThreadPool.threadPool in com.techcellance.filehandler.threadpool.CreditEntryThreadPool.initializePool(int)<br/>
+<br/>
+<br/>In file CreditEntryThreadPool.java,
+					
+						lines 23
+						    to 27<br/>In class com.techcellance.filehandler.threadpool.CreditEntryThreadPool<br/>In method com.techcellance.filehandler.threadpool.CreditEntryThreadPool.initializePool(int)<br/>On field com.techcellance.filehandler.threadpool.CreditEntryThreadPool.threadPool<br/>At CreditEntryThreadPool.java:[lines 23-27]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Multithreaded Correctness</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#LI_LAZY_INIT_STATIC">Incorrect lazy initialization of static field</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>Incorrect lazy initialization of static field com.techcellance.filehandler.threadpool.CreditFileThreadPool.threadPool in com.techcellance.filehandler.threadpool.CreditFileThreadPool.initializePool(int)<br/>
+<br/>
+<br/>In file CreditFileThreadPool.java,
+					
+						lines 24
+						    to 28<br/>In class com.techcellance.filehandler.threadpool.CreditFileThreadPool<br/>In method com.techcellance.filehandler.threadpool.CreditFileThreadPool.initializePool(int)<br/>On field com.techcellance.filehandler.threadpool.CreditFileThreadPool.threadPool<br/>At CreditFileThreadPool.java:[lines 24-28]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Troubling</td>
+<td width="10%" valign="center">Multithreaded Correctness</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#LI_LAZY_INIT_STATIC">Incorrect lazy initialization of static field</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>Incorrect lazy initialization of static field com.techcellance.filehandler.threadpool.MidEntryThreadPool.threadPool in com.techcellance.filehandler.threadpool.MidEntryThreadPool.initializePool(int)<br/>
+<br/>
+<br/>In file MidEntryThreadPool.java,
+					
+						lines 23
+						    to 27<br/>In class com.techcellance.filehandler.threadpool.MidEntryThreadPool<br/>In method com.techcellance.filehandler.threadpool.MidEntryThreadPool.initializePool(int)<br/>On field com.techcellance.filehandler.threadpool.MidEntryThreadPool.threadPool<br/>At MidEntryThreadPool.java:[lines 23-27]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file StartupComoFileConfiguration.java,
+					
+						line 99<br/>In class com.techcellance.filehandler.config.StartupComoFileConfiguration<br/>In method com.techcellance.filehandler.config.StartupComoFileConfiguration.populateProperties(Properties)<br/>At StartupComoFileConfiguration.java:[line 99]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/util/Properties.get(Ljava/lang/Object;)Ljava/lang/Object;<br/>Method usage with tainted arguments detected<br/>At StartupComoFileConfiguration.java:[line 71]<br/>At StartupComoFileConfiguration.java:[line 72]<br/>At StartupComoFileConfiguration.java:[line 95]<br/>At StartupComoFileConfiguration.java:[line 99]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file StartupComoFileConfiguration.java,
+					
+						line 111<br/>In class com.techcellance.filehandler.config.StartupComoFileConfiguration<br/>In method com.techcellance.filehandler.config.StartupComoFileConfiguration.populateProperties(Properties)<br/>At StartupComoFileConfiguration.java:[line 111]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/util/Properties.get(Ljava/lang/Object;)Ljava/lang/Object;<br/>Method usage with tainted arguments detected<br/>At StartupComoFileConfiguration.java:[line 71]<br/>At StartupComoFileConfiguration.java:[line 72]<br/>At StartupComoFileConfiguration.java:[line 107]<br/>At StartupComoFileConfiguration.java:[line 111]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file StartupComoFileConfiguration.java,
+					
+						line 123<br/>In class com.techcellance.filehandler.config.StartupComoFileConfiguration<br/>In method com.techcellance.filehandler.config.StartupComoFileConfiguration.populateProperties(Properties)<br/>At StartupComoFileConfiguration.java:[line 123]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/util/Properties.get(Ljava/lang/Object;)Ljava/lang/Object;<br/>Method usage with tainted arguments detected<br/>At StartupComoFileConfiguration.java:[line 71]<br/>At StartupComoFileConfiguration.java:[line 72]<br/>At StartupComoFileConfiguration.java:[line 119]<br/>At StartupComoFileConfiguration.java:[line 123]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file StartupComoFileConfiguration.java,
+					
+						line 147<br/>In class com.techcellance.filehandler.config.StartupComoFileConfiguration<br/>In method com.techcellance.filehandler.config.StartupComoFileConfiguration.populateProperties(Properties)<br/>At StartupComoFileConfiguration.java:[line 147]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/util/Properties.get(Ljava/lang/Object;)Ljava/lang/Object;<br/>Method usage with tainted arguments detected<br/>At StartupComoFileConfiguration.java:[line 71]<br/>At StartupComoFileConfiguration.java:[line 72]<br/>At StartupComoFileConfiguration.java:[line 143]<br/>At StartupComoFileConfiguration.java:[line 147]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file FileHandlerServiceDaoImpl.java,
+					
+						line 359<br/>In class com.techcellance.filehandler.dao.impl.FileHandlerServiceDaoImpl<br/>In method com.techcellance.filehandler.dao.impl.FileHandlerServiceDaoImpl.populatefileDataConfiguration(ResultSet, String)<br/>At FileHandlerServiceDaoImpl.java:[line 359]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source com/techcellance/filehandler/beans/FileElementAttirbutes.identifier<br/>Unknown source com/techcellance/filehandler/beans/FileElementAttirbutes.toString()Ljava/lang/String;<br/>Unknown source com/techcellance/filehandler/beans/FileElementAttirbutes.description<br/>Method usage with tainted arguments detected<br/>At FileElementAttirbutes.java:[line 22]<br/>At FileElementAttirbutes.java:[line 23]<br/>At FileHandlerServiceDaoImpl.java:[line 321]<br/>At FileHandlerServiceDaoImpl.java:[line 322]<br/>At FileHandlerServiceDaoImpl.java:[line 359]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file BinFileReaderTask.java,
+					
+						line 119<br/>In class com.techcellance.filehandler.reader.impl.BinFileReaderTask<br/>In method com.techcellance.filehandler.reader.impl.BinFileReaderTask.readfileAndParseData(BufferedReader)<br/>At BinFileReaderTask.java:[line 119]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/io/BufferedReader.readLine()Ljava/lang/String;<br/>Unknown source com/techcellance/filehandler/reader/impl/BinFileReaderTask.readLine(Ljava/io/BufferedReader;)Ljava/lang/String;<br/>At BinFileReaderTask.java:[line 115]<br/>At BinFileReaderTask.java:[line 119]<br/>At BinFileReaderTask.java:[line 121]<br/>At BinFileReaderTask.java:[line 163]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file BSPFileReaderTask.java,
+					
+						line 275<br/>In class com.techcellance.filehandler.reader.impl.BSPFileReaderTask<br/>In method com.techcellance.filehandler.reader.impl.BSPFileReaderTask.populateBatchEntryRecord(CreditBatchEntryRecord, String, BufferedReader)<br/>At BSPFileReaderTask.java:[line 275]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/io/BufferedReader.readLine()Ljava/lang/String;<br/>Unknown source com/techcellance/filehandler/reader/impl/BSPFileReaderTask.readLine(Ljava/io/BufferedReader;)Ljava/lang/String;<br/>At BSPFileReaderTask.java:[line 181]<br/>At BSPFileReaderTask.java:[line 274]<br/>At BSPFileReaderTask.java:[line 275]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file BSPFileReaderTask.java,
+					
+						line 290<br/>In class com.techcellance.filehandler.reader.impl.BSPFileReaderTask<br/>In method com.techcellance.filehandler.reader.impl.BSPFileReaderTask.populateBatchEntryRecord(CreditBatchEntryRecord, String, BufferedReader)<br/>At BSPFileReaderTask.java:[line 290]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/io/BufferedReader.readLine()Ljava/lang/String;<br/>Unknown source com/techcellance/filehandler/reader/impl/BSPFileReaderTask.readLine(Ljava/io/BufferedReader;)Ljava/lang/String;<br/>At BSPFileReaderTask.java:[line 181]<br/>At BSPFileReaderTask.java:[line 289]<br/>At BSPFileReaderTask.java:[line 290]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file BSPFileReaderTask.java,
+					
+						line 200<br/>In class com.techcellance.filehandler.reader.impl.BSPFileReaderTask<br/>In method com.techcellance.filehandler.reader.impl.BSPFileReaderTask.readInvoiceBatch(CreditInvoiceHeader, BufferedReader, CreditFile, String)<br/>At BSPFileReaderTask.java:[line 200]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/io/BufferedReader.readLine()Ljava/lang/String;<br/>Unknown source com/techcellance/filehandler/reader/impl/BSPFileReaderTask.readLine(Ljava/io/BufferedReader;)Ljava/lang/String;<br/>At BSPFileReaderTask.java:[line 181]<br/>At BSPFileReaderTask.java:[line 199]<br/>At BSPFileReaderTask.java:[line 200]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file BSPFileReaderTask.java,
+					
+						line 207<br/>In class com.techcellance.filehandler.reader.impl.BSPFileReaderTask<br/>In method com.techcellance.filehandler.reader.impl.BSPFileReaderTask.readInvoiceBatch(CreditInvoiceHeader, BufferedReader, CreditFile, String)<br/>At BSPFileReaderTask.java:[line 207]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/io/BufferedReader.readLine()Ljava/lang/String;<br/>Unknown source com/techcellance/filehandler/reader/impl/BSPFileReaderTask.readLine(Ljava/io/BufferedReader;)Ljava/lang/String;<br/>At BSPFileReaderTask.java:[line 181]<br/>At BSPFileReaderTask.java:[line 206]<br/>At BSPFileReaderTask.java:[line 207]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file BSPFileReaderTask.java,
+					
+						line 125<br/>In class com.techcellance.filehandler.reader.impl.BSPFileReaderTask<br/>In method com.techcellance.filehandler.reader.impl.BSPFileReaderTask.readfileAndParseData(BufferedReader)<br/>At BSPFileReaderTask.java:[line 125]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/io/BufferedReader.readLine()Ljava/lang/String;<br/>Unknown source com/techcellance/filehandler/reader/impl/BSPFileReaderTask.readLine(Ljava/io/BufferedReader;)Ljava/lang/String;<br/>At BSPFileReaderTask.java:[line 124]<br/>At BSPFileReaderTask.java:[line 125]<br/>At BSPFileReaderTask.java:[line 181]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file BSPFileReaderTask.java,
+					
+						line 143<br/>In class com.techcellance.filehandler.reader.impl.BSPFileReaderTask<br/>In method com.techcellance.filehandler.reader.impl.BSPFileReaderTask.readfileAndParseData(BufferedReader)<br/>At BSPFileReaderTask.java:[line 143]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/io/BufferedReader.readLine()Ljava/lang/String;<br/>Unknown source com/techcellance/filehandler/reader/impl/BSPFileReaderTask.readLine(Ljava/io/BufferedReader;)Ljava/lang/String;<br/>At BSPFileReaderTask.java:[line 142]<br/>At BSPFileReaderTask.java:[line 143]<br/>At BSPFileReaderTask.java:[line 181]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file BSPFileReaderTask.java,
+					
+						line 160<br/>In class com.techcellance.filehandler.reader.impl.BSPFileReaderTask<br/>In method com.techcellance.filehandler.reader.impl.BSPFileReaderTask.readfileAndParseData(BufferedReader)<br/>At BSPFileReaderTask.java:[line 160]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/io/BufferedReader.readLine()Ljava/lang/String;<br/>Unknown source com/techcellance/filehandler/reader/impl/BSPFileReaderTask.readLine(Ljava/io/BufferedReader;)Ljava/lang/String;<br/>At BSPFileReaderTask.java:[line 159]<br/>At BSPFileReaderTask.java:[line 160]<br/>At BSPFileReaderTask.java:[line 181]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#CRLF_INJECTION_LOGS">[Find Security Bugs] Potential CRLF Injection for logs</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This use of org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V might be used to include CRLF characters into log messages. [(OWASP A10/2017), (CWE 93,117)]<br/>
+<br/>
+<br/>In file MidFileReaderTask.java,
+					
+						line 117<br/>In class com.techcellance.filehandler.reader.impl.MidFileReaderTask<br/>In method com.techcellance.filehandler.reader.impl.MidFileReaderTask.readfileAndParseData(BufferedReader)<br/>At MidFileReaderTask.java:[line 117]<br/>Sink method org/apache/logging/log4j/Logger.debug(Ljava/lang/String;)V<br/>Sink parameter 0<br/>Unknown source java/io/BufferedReader.readLine()Ljava/lang/String;<br/>Unknown source com/techcellance/filehandler/reader/impl/MidFileReaderTask.readLine(Ljava/io/BufferedReader;)Ljava/lang/String;<br/>At MidFileReaderTask.java:[line 113]<br/>At MidFileReaderTask.java:[line 117]<br/>At MidFileReaderTask.java:[line 119]<br/>At MidFileReaderTask.java:[line 166]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#URLCONNECTION_SSRF_FD">[Find Security Bugs] URLConnection Server-Side Request Forgery (SSRF) and File Disclosure</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>This web server request could be used by an attacker to expose internal services and filesystem. [(CWE 73, 918)]<br/>
+<br/>
+<br/>In file PaymentServiceProcessor.java,
+					
+						line 57<br/>In class com.techcellance.filehandler.bl.PaymentServiceProcessor<br/>In method com.techcellance.filehandler.bl.PaymentServiceProcessor.captureTransaction(String)<br/>At PaymentServiceProcessor.java:[line 57]<br/>Sink method java/net/URL.openConnection()Ljava/net/URLConnection;<br/>Sink parameter 0<br/>Unknown source java/net/URL.&lt;init&gt;(Ljava/lang/String;)V<br/>Unknown source com/techcellance/filehandler/util/Constants.WORLD_PAY_URL<br/>At PaymentServiceProcessor.java:[line 56]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#XXE_DOCUMENT">[Find Security Bugs] XML parsing vulnerable to XXE (DocumentBuilder)</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>The use of DocumentBuilder.parse(...) is vulnerable to XML External Entity attacks. [(OWASP A4/2017), (CWE 611)]<br/>
+<br/>
+<br/>In file PaymentServiceProcessor.java,
+					
+						line 358<br/>In class com.techcellance.filehandler.bl.PaymentServiceProcessor<br/>In method com.techcellance.filehandler.bl.PaymentServiceProcessor.populateCaptureResponseForTransaction(String, CreditBatchEntryRecord, AtomicInteger, AtomicInteger)<br/>At PaymentServiceProcessor.java:[line 358]<br/>Value DocumentBuilder.parse(...)</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#XXE_DTD_TRANSFORM_FACTORY">[Find Security Bugs] XML parsing vulnerable to XXE (TransformerFactory)</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>The use of TransformerFactory.newInstance(...) is vulnerable to XML External Entity attacks. [(OWASP A4/2017), (CWE 611)]<br/>
+<br/>
+<br/>In file PaymentServiceProcessor.java,
+					
+						line 513<br/>In class com.techcellance.filehandler.bl.PaymentServiceProcessor<br/>In method com.techcellance.filehandler.bl.PaymentServiceProcessor.generateXMLRequestForCreditTransaction(CreditBatchEntryRecord)<br/>At PaymentServiceProcessor.java:[line 513]<br/>Value TransformerFactory.newInstance(...)</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#XXE_DTD_TRANSFORM_FACTORY">[Find Security Bugs] XML parsing vulnerable to XXE (TransformerFactory)</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>The use of TransformerFactory.newInstance(...) is vulnerable to XML External Entity attacks. [(OWASP A4/2017), (CWE 611)]<br/>
+<br/>
+<br/>In file PaymentServiceProcessor.java,
+					
+						line 259<br/>In class com.techcellance.filehandler.bl.PaymentServiceProcessor<br/>In method com.techcellance.filehandler.bl.PaymentServiceProcessor.generateXMLRequestForDebitTransaction(CreditBatchEntryRecord)<br/>At PaymentServiceProcessor.java:[line 259]<br/>Value TransformerFactory.newInstance(...)</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#XXE_XSLT_TRANSFORM_FACTORY">[Find Security Bugs] XSLT parsing vulnerable to XXE (TransformerFactory)</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>The use of TransformerFactory.newInstance(...) is vulnerable to XSLT External Entity attacks. [(OWASP A4/2017), (CWE 611)]<br/>
+<br/>
+<br/>In file PaymentServiceProcessor.java,
+					
+						line 513<br/>In class com.techcellance.filehandler.bl.PaymentServiceProcessor<br/>In method com.techcellance.filehandler.bl.PaymentServiceProcessor.generateXMLRequestForCreditTransaction(CreditBatchEntryRecord)<br/>At PaymentServiceProcessor.java:[line 513]<br/>Value TransformerFactory.newInstance(...)</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="7%" valign="center" style="text-align:center;height:100px;">Scariest</td>
+<td width="10%" valign="center">Security</td>
+<td width="20%" style="word-break:break-all;" valign="top">
+<a target="_blank" href="https://find-sec-bugs.github.io/bugs.htm#XXE_XSLT_TRANSFORM_FACTORY">[Find Security Bugs] XSLT parsing vulnerable to XXE (TransformerFactory)</a>
+</td>
+<td width="70%" style="word-break:break-all;">
+<p>The use of TransformerFactory.newInstance(...) is vulnerable to XSLT External Entity attacks. [(OWASP A4/2017), (CWE 611)]<br/>
+<br/>
+<br/>In file PaymentServiceProcessor.java,
+					
+						line 259<br/>In class com.techcellance.filehandler.bl.PaymentServiceProcessor<br/>In method com.techcellance.filehandler.bl.PaymentServiceProcessor.generateXMLRequestForDebitTransaction(CreditBatchEntryRecord)<br/>At PaymentServiceProcessor.java:[line 259]<br/>Value TransformerFactory.newInstance(...)</p>
+</td>
+</tr>
+</table>
+<p>Produced using <a href="https://spotbugs.github.io/">SpotBugs </a>3.1.12.</p>
+</body>
+</html>
+
+			<input type="hidden" name="ip" value="192.168.1.115"/>
+			<input type="hidden" name="userName" value="hkhan02"/>
+			<input type="hidden" name="source" value="D:/HIK/File_Handler_Project_app/trunk/file-handler-project-performance/src"/>
+			<input type="hidden" name="aux_bin" value=""/>
+			<input type="hidden" name="bin" value="D:/HIK/File_Handler_Project_app/trunk/file-handler-project-performance/bin"/>
+			<input type="hidden" name="sql_path" value=""/>
+			<input type="hidden" name="fullName" value=""/>
+			<input type="hidden" name="RunExecution" value="SQL Analyzer Executed Successfully, PMD Executed Successfully, Spotbugs Executed Successfully, "/>
+			<input type="hidden" name="fileName" value="Static-Analysis-Report-07-25-2019(07252019164249).html"/>
+		<!doctype html>
+<h1 id="SQL-Report">SQL Analyzer Report</h1><style>a {text-decoration: none; }</style> <h3 align="right">VIEW: <a href="#PMD-Report" id="Report-Jump-PMD">PMD | </a><a href="#FindBugs-Report" id="Report-Jump-FindBugs">FindBugs | </a><a href="#SQL-Report" id="Report-Jump-SQL">SQL</a></h3><head> <style> body { margin-left: 2%; margin-right: 2%; font:normal verdana,arial,helvetica; color:#000000;} table.sortable th { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; font-size: 1em; font-weight: bold; text-align:center; background:#b9b9fe; } table.sortable td { padding: 3px; } table.sql-summary tr th { font-size: 1em;font-weight: bold; text-align:center; background:#a6caf0;width:120px; } table.sql-summary tr td { background:#eeeee0; text-align:center;} .td-critical { background:#FF9999; } .td-high { background:#FFCC66; } .td-medium { background:#FFFF99; } .td-low { background:#9999FF; } .td-info { background:#99FF99; } </style> </head> <table class="sql-summary" border="0"> <tr> <th>Total</th> <th>Critical</th> <th>High</th> <th>Medium</th> <th>Low</th> <th>Info</th> </tr>  <tr> <td>0</td> <td ><div class="td-critical">0</div></td> <td><div class="td-high">0</div></td> <td><div class="td-medium">0</div></td> <td><div class="td-low">0</div></td> <td><div class="td-info">0</div></td> </tr></table> </br> <table class='sql-detail' border='1' width='100%' class='table table-bordered'  id='sortable_id'><tr> <th>Rule ID</th> <th>Rule Name</th><th>Severity</th> <th>Description</th><th>File Name</th><th>Query</th> </tr></table><!doctype html><h1>Stats Table</h1><table border='1' style='text-align:center' width='100%' class='table table-bordered table-hover table-sm' id='sortable_id'><tr> <th> Number of Files</th> <th> Number of Inserts</th> <th>Number of Deletes</th> <th> Number of Updates</th> <th> Number of Selects</th> <th> Number of Creates</th> <th> Number of Drops</th><th> Number of Procedures</th></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></table><!doctype html><hr/><style>a {text-decoration: none; }</style><h1 id="Top-Exeptions" align='center'>Top 5 Issues</h1> <h3 align="right">FINDINGS: <a href="#PMD-Report" id="Report-Jump-PMD">PMD | </a><a href="#SpotBugs-Report" id="Report-Jump-SpotBugs">SpotBugs | </a><a href="#SQL-Report" id="Report-Jump-SQL">SQL</a></h3><head> <style> body { margin-left: 2%; margin-right: 2%; font:normal verdana,arial,helvetica; color:#000000;} table.top-issues th { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; font-size: 1em; font-weight: bold; text-align:center; background:#b9b9fe; } table.top-issues td { padding: 3px; } </style> </head><h1 id="Top-Exeptions">PMD</h1><table class='pmd-top-issues  top-issues' border='0' width='100%'  id='sortable_id'><tr> <th>Sr. No.</th> <th>Name</th><th>Priority</th> <th>Category</th><th>Count</th></tr><tr><td align="center" width='5%'>1</td><td>CloseResource</td><td width='13%'>Absolutely Required</td><td width='15%'>Error Prone</td><td align="center" width='7%'>24</td></tr><tr><td align="center" width='5%'>2</td><td>UseConcurrentHashMap</td><td width='13%'>Absolutely Required</td><td width='15%'>Multithreading</td><td align="center" width='7%'>1</td></tr><tr><td align="center" width='5%'>3</td><td>SignatureDeclareThrowsException</td><td width='13%'>Recommended</td><td width='15%'>Design</td><td align="center" width='7%'>19</td></tr><tr><td align="center" width='5%'>4</td><td>ClassWithOnlyPrivateConstructorsShouldBeFinal</td><td width='13%'>Recommended</td><td width='15%'>Design</td><td align="center" width='7%'>5</td></tr><tr><td align="center" width='5%'>5</td><td>AvoidThrowingRawExceptionTypes</td><td width='13%'>Recommended</td><td width='15%'>Design</td><td align="center" width='7%'>2</td></tr></table><h1>SpotBugs</h1><table class='fb-top-issues  top-issues' border='0' width='100%'  id='sortable_id'><tr> <th>Sr. No.</th> <th>Name</th><th>Severity</th> <th>Category</th><th>Count</th></tr><tr><td align="center" width='5%'>1</td><td>[Find Security Bugs] Potential CRLF Injection for logs</td><td width='13%'>Scariest</td><td width='15%'>Security</td><td align="center" width='7%'>14</td></tr><tr><td align="center" width='5%'>2</td><td>[Find Security Bugs] XML parsing vulnerable to XXE (TransformerFactory)</td><td width='13%'>Scariest</td><td width='15%'>Security</td><td align="center" width='7%'>2</td></tr><tr><td align="center" width='5%'>3</td><td>[Find Security Bugs] XSLT parsing vulnerable to XXE (TransformerFactory)</td><td width='13%'>Scariest</td><td width='15%'>Security</td><td align="center" width='7%'>2</td></tr><tr><td align="center" width='5%'>4</td><td>[Find Security Bugs] URLConnection Server-Side Request Forgery (SSRF) and File Disclosure</td><td width='13%'>Scariest</td><td width='15%'>Security</td><td align="center" width='7%'>1</td></tr><tr><td align="center" width='5%'>5</td><td>[Find Security Bugs] XML parsing vulnerable to XXE (DocumentBuilder)</td><td width='13%'>Scariest</td><td width='15%'>Security</td><td align="center" width='7%'>1</td></tr></table><h1>SQL</h1> <p style='color:red'> No Issue Found/ Analysis Not Conducted</p><table class='sql-top-issues top-issues' border='0' width='100%'  id='sortable_id'><tr> <th>Sr. No.</th> <th>Name</th><th>Severity</th> <th>Category</th><th>Count</th></tr></table><p style='color:red'>* For complete list & details, refer to relevant section above</p>

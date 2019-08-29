@@ -1,0 +1,73 @@
+package com.techcellance.filehandler.util;
+
+public class Constants {
+
+	
+	public static final int NO_OF_THREADS = 1;
+	public static final String CONFIG_INI_FILE_PATH = "Config.ini";
+	public static final String DATE_FORMAT = "yymmdd";
+	public static final String FILE_DATE_FORMAT = "yyyyMMdd";
+	public static final String DATE_TIME_FORMAT = "dd MMMMM yyyy HH:mm:ss";
+	public static final String  SUCCESSFUL_STATUS = "P";
+	public static final String WORLD_PAY_ID = "world_pay";
+	public static final String IN_PROGRESS = "I";
+	public static final String HALT_STATUS = "H";
+	public static final String DEBIT_TRANSACTION = "DB";
+	public static final String CREDIT_TRANSACTION = "CR";
+	public static final String ORPHAN_TRANSACTION = "OR";
+	public static final String CREDIT_INDICATOR = "credit";
+	public static final String REFUND_ACTION_ACTION = "REFUND";
+	public static final String PARAM_ID_BIN_RECORD_BATCH_SIZE = "BIN_RECORD_BATCH_SIZE";
+	public static final String FAIL = "F";
+	public static final String PARAM_ID_MERHCANT_RECORD_BATCH_SIZE = "MERCHANT_RECORD_BATCH_SIZE";
+	public static final String LOG4J2_CONFIG_FILE_NAME = "log4j2.properties";
+	public static final String PARAM_ID_DATABASE_CLASS = "database_class";
+	public static final String PARAM_ID_DATABASE_URL = "database_url";
+	public static final String PARAM_ID_DATABASE_PASS = "database_pass";
+	public static final String PARAM_ID_DATABASE_USER = "database_user";
+	public static final String PARAM_ID_TEMP_FILE_PATH = "temp_file_path";
+	public static final String PARAM_ID_MERCHANTCODE = "merchant_code";	
+	public static final String PARAM_ID_WORLD_PAY_URL ="wolrd_pay_url";
+	public static final String PARAM_ID_WORLD_PAY_USER ="world_pay_user";
+	public static final String PARAM_ID_WORLD_PAY_PASS ="world_pay_password";
+	public static final String PARAM_ID_CFH_THREAD_POOL_SIZE = "CFH_THREAD_POOL_SIZE";
+	public static final String PARAM_ID_CBR_THREAD_POOL_SIZE = "CBR_THREAD_POOL_SIZE";
+	public static String DATA_BASE_CLASS_NAME = null;
+	public static String DATA_BASE_URL = null; 
+	public  static  String DATA_BASE_USER = null; 
+	public static String DATA_BASE_PASS = null;
+	public static String TEMP_FILE_PATH = null;
+	public static String WORLD_PAY_URL = null;
+	public static String WORLD_PAY_USER = null;
+	public static String WORLD_PAY_PASS = null;
+	public static String MERCHANT_CODE = "COMOCAPTUREONLY";
+	public static final String FILE_EXT_ON_SFTP = "*.txt";
+	public static final String FILE_HEADER_IDENTIFIER = "CFH";
+	public static final String INVOICE_HEADER_IDENTIFIER = "CIH";
+	public static final String BATCH_HEADER_IDENTIFIER = "CBH";
+	public static final String TRANSACTION_BASIC_RECORD_IDENTIFIER = "CBR";
+	public static final String TRANSACTION_OPTIONAL_RECORD_IDENTIFIER = "COR";
+	public static final String TRANSACTION_OPTIONAL_TAX_RECORD_IDENTIFIER  = "COT";
+	public static final String BIN_FILE_HEADER_IDENTIFIER = "RANGEFROM";
+	public static final String MID_FILE_HEADER_IDENTIFER = "Capture Only Agent";
+	public static final String CARD_AUTHENTICATION_INFORMATION_RECORD_IDENTIFIER = "CAD";
+	public static final String THREEDIM_AUTHENTICATION_RECORD_IDENTIFIER = "CAX";
+	public static final String COUPON_DETAIL_RECORD_IDENTIFIER = "COE";
+	public static final String BATCH_TRAILER_IDENTIFIER = "CBT";
+	public static final String TOTAL_PER_AGENT_RECORD_IDENTIFIER = "CAT";	
+	public static final String INVOICE_TRAILER_IDENTIFIER = "CIT";
+	public static final String FILE_TRAILER_IDENTIFIER = "CFT";
+	public static final String MASKED_CARD_NUMBER_FORMAT = "####XXXXXXXX####";
+	public static final Integer SERVICE_UNAVAILABLE_RESPONSE =8;
+	public static Integer CFH_THREAD_POOL_SIZE = 10;
+	public static Integer CBR_THREAD_POOL_SIZE = 20;
+	public static Integer BIN_RECORD_BATCH_SIZE= 40;
+	public static int MERCHANT_RECORD_BATCH_SIZE = 100;
+	public static int MID_FILE_NO_OF_DAYS = 0;
+	public static final int CARD_BIN_LENGTH = 11;
+	public static final String NextLine = "\n";
+	public static final String GEN_EMAIL_FAILED_RECORD = "GEN_EMAIL_FAILED_RECORD";
+	public static final String GEN_EMAIL_SYSTEM_EXCEPTION = "GEN_EMAIL_SYSTEM_EXCEPTION";
+	public static final String PARAM_ID_MID_FILE_NO_OF_DAYS = "MID_FILE_NO_OF_DAYS"; 
+	
+}
