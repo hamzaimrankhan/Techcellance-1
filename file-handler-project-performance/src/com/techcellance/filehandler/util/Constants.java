@@ -68,6 +68,7 @@ public class Constants {
 	public static final String NextLine = "\n";
 	public static final String GEN_EMAIL_FAILED_RECORD = "GEN_EMAIL_FAILED_RECORD";
 	public static final String GEN_EMAIL_SYSTEM_EXCEPTION = "GEN_EMAIL_SYSTEM_EXCEPTION";
+	public static final String GEN_EMAIL_MISSING_MID_AGENT = "GEN_EMAIL_MISSING_MID_AGENT";
 	public static final String PARAM_ID_MID_FILE_NO_OF_DAYS = "MID_FILE_NO_OF_DAYS"; 
 	
 }

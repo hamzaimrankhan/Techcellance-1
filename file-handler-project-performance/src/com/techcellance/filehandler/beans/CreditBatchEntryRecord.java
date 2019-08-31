@@ -46,6 +46,7 @@ public class CreditBatchEntryRecord implements Serializable{
 	private String legalPostalCode = null; 
 	private String legalCountryCode = null;
 	private String midLookUpCode  = null ;
+	private String status = null; 
 	private List<String> missingMandatoryInfos = null; 
 	private CreditBatchEntryAdditionalInformation entryAdditionalInformation = new CreditBatchEntryAdditionalInformation(); 
 	
@@ -285,6 +286,12 @@ public class CreditBatchEntryRecord implements Serializable{
 	}
 	public void setMissingMandatoryInfos(List<String> missingMandatoryInfos) {
 		this.missingMandatoryInfos = missingMandatoryInfos;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

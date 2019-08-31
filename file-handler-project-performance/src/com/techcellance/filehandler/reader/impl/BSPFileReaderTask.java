@@ -251,9 +251,6 @@ public class BSPFileReaderTask extends AbstractFileReaderTask
 		creditBatchEntryRecord.setPassengerCode(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.PassengerCode.name()));
 		creditBatchEntryRecord.setTicketCode(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.TicketCode.name()));
 		creditBatchEntryRecord.setTicketRestricted(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.TicketRestricted.name()));
-		if(CommonUtils.isNullOrEmptyString(creditBatchEntryRecord.getTicketRestricted()) || !creditBatchEntryRecord.getTicketRestricted().equals("1")) {
-			creditBatchEntryRecord.setTicketRestricted("0");
-		}
 		creditBatchEntryRecord.setDepartureDate(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.DepartureDate.name()));
 		creditBatchEntryRecord.setDepartureMonth(CommonUtils.getMonthInNumeric(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.DepartureMonth.name())));
 		creditBatchEntryRecord.setDepartureYear(CommonUtils.getDepartureDateYear(creditBatchEntryRecord.getDepartureMonth(),creditBatchEntryRecord.getDepartureDate()));

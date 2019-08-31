@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.techcellance.filehandler.beans.CreditBatchEntryRecord;
 import com.techcellance.filehandler.beans.EmailInformation;
 import com.techcellance.filehandler.beans.FailedEntryInfo;
 import com.techcellance.filehandler.dao.AbstractFileHandlerServiceDao;
@@ -39,6 +40,42 @@ public class EmailGenerationHandler {
 		}
 	}
 	
+	public static void generateEmailForMissingMIDInformation(String templateId, List<CreditBatchEntryRecord> records,String fileName){	
+		
+		EmailInformation emailInformation = AbstractFileHandlerServiceDao.getInstance().fetchEmailConfiguration(templateId);
+		generateEmailContentForMissingMidAgent(records,fileName,emailInformation);	
+		if(!CommonUtils.isNullObject(emailInformation) && !CommonUtils.isNullOrEmptyString(emailInformation.getEmailFrom()) && !CommonUtils.isNullOrEmptyString(emailInformation.getEmailRecipient()) ){
+			sendEmail(emailInformation);
+		}else{
+			
+			LGR.warn("Couldnot generate email for failed record due to no configuration or in-active status");
+		}
+	}	
+	
+	private static void generateEmailContentForMissingMidAgent(List<CreditBatchEntryRecord> records, String fileName,EmailInformation emailInformation) {		
+		StringBuilder  messageBody = new StringBuilder();
+		messageBody.append(emailInformation.getEmailBody());
+		messageBody.append(Constants.NextLine);
+		messageBody.append("Total Error Records :" +records.size());
+		messageBody.append(Constants.NextLine);
+		messageBody.append("Record Number of failed records:"  +CommonUtils.getDocumentNumbner(records) );
+		messageBody.append(Constants.NextLine);
+		messageBody.append(emailInformation.getEmailFooter());
+		emailInformation.setEmailBody(messageBody.toString());
+		emailInformation.setEmailSubject(emailInformation.getEmailSubject().concat("["+ fileName +"]"));		
+	}
+	
+	public static void generateEmailForSystemException(String templateId,Exception ex){
+		
+		EmailInformation emailInformation = AbstractFileHandlerServiceDao.getInstance().fetchEmailConfiguration(templateId);
+		generateEmailContent(ex, emailInformation);	
+		if(!CommonUtils.isNullObject(emailInformation) && !CommonUtils.isNullOrEmptyString(emailInformation.getEmailFrom()) && !CommonUtils.isNullOrEmptyString(emailInformation.getEmailRecipient())){
+			sendEmail(emailInformation);
+		}else{
+			LGR.warn("Couldnot generate email for failed record due to no configuration or in-active status");
+		}
+	}
+	
 	private static void generateEmailContent(List<FailedEntryInfo> failedEntryInfos,String fileName, EmailInformation emailInformation) {		
 		StringBuilder  messageBody = new StringBuilder();
 		messageBody.append(emailInformation.getEmailBody());
@@ -51,23 +88,9 @@ public class EmailGenerationHandler {
 		emailInformation.setEmailBody(messageBody.toString());
 		emailInformation.setEmailSubject(emailInformation.getEmailSubject().concat("["+ fileName +"]"));
 		
-	}
+	}	
 	
-	
-	
-	public static void generateEmailForSystemException(String templateId,Exception ex){
-		
-		EmailInformation emailInformation = AbstractFileHandlerServiceDao.getInstance().fetchEmailConfiguration(templateId);
-		generateBody(ex, emailInformation);	
-		if(!CommonUtils.isNullObject(emailInformation) && !CommonUtils.isNullOrEmptyString(emailInformation.getEmailFrom()) && !CommonUtils.isNullOrEmptyString(emailInformation.getEmailRecipient())){
-			sendEmail(emailInformation);
-		}else{
-			LGR.warn("Couldnot generate email for failed record due to no configuration or in-active status");
-		}
-	}
-	
-	
-	private static void generateBody(Exception ex, EmailInformation emailInformation) {		
+	private static void generateEmailContent(Exception ex, EmailInformation emailInformation) {		
 		StringBuilder  messageBody = new StringBuilder();
 		messageBody.append(emailInformation.getEmailBody());
 		messageBody.append(Constants.NextLine);
@@ -75,17 +98,6 @@ public class EmailGenerationHandler {
 		messageBody.append(Constants.NextLine);
 		messageBody.append(emailInformation.getEmailFooter());
 		emailInformation.setEmailBody(messageBody.toString());
-	}
-	
-	
-	
-	public void generateEmailForSuccessfulCompletion(){		
-	//still pending
-	}
-	
-	public void generateEmailForMissingMIDInformation(){	
-		
-		
 	}	
 	
 	private static void sendEmail(EmailInformation emailInformation ) {

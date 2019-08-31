@@ -5,9 +5,9 @@ public class DefaultTagValues {
 	public static final String AMOUNT = "000";
 	public static final String EXPIRY_MONTH = "00";
 	public static final String EXPIRY_YEAR = "0000";
-	public static String ISSUER_ADDRESS1 = "12 street";
-	public static String POSTAL_CODE = "CB45TY";
-	public static String ISSUER_CITY = "City";
+	public static String ISSUER_ADDRESS1 = "Airport venue 1";
+	public static String POSTAL_CODE = "1111";
+	public static String ISSUER_CITY = "london";
 	public static String COUNTRY_CODE = "GB";
 	public static String PASSENGER_NAME  ="XX";
 	public static String DOCUMENT_NUMBER = "000000000";

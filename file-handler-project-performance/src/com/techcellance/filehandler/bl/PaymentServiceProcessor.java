@@ -189,13 +189,9 @@ public class PaymentServiceProcessor {
          
 		Element routingMID = document.createElement("routingMID");
 		if (!CommonUtils.isNullOrEmptyString(entry.getMidLookUpCode())) {
-
 			routingMID.appendChild(document.createTextNode(entry.getMidLookUpCode()));
-
 		} else {
-
 			routingMID.appendChild(document.createTextNode("DUMMY"));
-
 		}
 		paymentDetails.appendChild(routingMID);
    
@@ -631,14 +627,18 @@ public class PaymentServiceProcessor {
 	public void processCreditBatchEntryRecord(CreditBatchEntryRecord entry, AtomicInteger successFulRecordCount,AtomicInteger failedRecordCount ) {
 	
 		try {
-
+		
+		boolean isAgentCodePopulated = false;	
 		if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType()) || Constants.CREDIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())) {
 	
 		AbstractFileHandlerServiceDao dao = AbstractFileHandlerServiceDao.getInstance(); 
 		validateRecordMandatoryInfo(entry);
 		if(!Constants.ORPHAN_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())) {
-//				dao.populateAgentCodeInformation(entry);			
+			isAgentCodePopulated = dao.populateAgentCodeInformation(entry);			
 		}
+		
+		if(isAgentCodePopulated){
+			
 		
 		LGR.info(LGR.isInfoEnabled()? "Going to generate XML request for entry with document number: " +  entry.getDocumentNumber() +  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()):null);
 		String xmlRequest =generateXMLRequest(entry);
@@ -650,11 +650,15 @@ public class PaymentServiceProcessor {
 		
 		if(null != response){
 			PaymentServiceProcessor.getInstance().populateCaptureResponseForTransaction(response,entry,successFulRecordCount,failedRecordCount );
-		}
-		else{
+		}else{
 			LGR.debug(LGR.isDebugEnabled() ? "Response recieved for entry with docuemt number is : "  + entry.getDocumentNumber() +  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()) + " please refer logs for detials" :null);
 		}
+	
 		
+		}else{
+			
+			LGR.info(LGR.isInfoEnabled()?"MID Agent code not found in the data repository for order number : " + entry.getDocumentNumber() +  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()) : null);
+		}
 		
 		}else {
 			

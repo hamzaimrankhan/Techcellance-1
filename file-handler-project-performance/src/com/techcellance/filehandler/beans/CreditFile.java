@@ -14,7 +14,7 @@ public class CreditFile implements Serializable {
 	private Integer totalFailedRecords = 0 ;
 	private Integer totalSuccessfullRecord = 0;
 	private String fileType = null ;
-	private List<String> alreadyProcessedOrderIds = new ArrayList<String>();
+	private List<String> InProgressOrderNumbers = new ArrayList<String>();
 	private List<FailedEntryInfo> failedEntryInfos = new ArrayList<FailedEntryInfo>();
 	
 	private String fileStatus = null ;
@@ -49,12 +49,7 @@ public class CreditFile implements Serializable {
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
 	}
-	public List<String> getAlreadyProcessedOrderIds() {
-		return alreadyProcessedOrderIds;
-	}
-	public void setAlreadyProcessedOrderIds(List<String> alreadyProcessedOrderIds) {
-		this.alreadyProcessedOrderIds = alreadyProcessedOrderIds;
-	}
+	
 	public Long getFileSrNo() {
 		return fileSrNo;
 	}
@@ -84,6 +79,12 @@ public class CreditFile implements Serializable {
 
 	public void addFailedEntryInList(FailedEntryInfo failedEntryInfo){
 		this.failedEntryInfos.add(failedEntryInfo);
+	}
+	public List<String> getInProgressOrderNumbers() {
+		return InProgressOrderNumbers;
+	}
+	public void setInProgressOrderNumbers(List<String> inProgressOrderNumbers) {
+		InProgressOrderNumbers = inProgressOrderNumbers;
 	} 
 
 

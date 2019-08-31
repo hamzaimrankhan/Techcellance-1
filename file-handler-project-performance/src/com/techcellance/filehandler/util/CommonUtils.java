@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.techcellance.filehandler.beans.CreditBatchEntryRecord;
 import com.techcellance.filehandler.beans.FailedEntryInfo;
 import com.techcellance.filehandler.beans.ResponseInfo;
 import com.techcellance.filehandler.dao.AbstractFileHandlerServiceDao;
@@ -479,6 +480,18 @@ public class CommonUtils {
 		}
 		
 		return recNumber.toString().replaceAll(",$", "");
+	}
+	
+	public static String getDocumentNumbner(List<CreditBatchEntryRecord> creditBatchEntryRecords) {
+
+		StringBuilder documentNumber = new StringBuilder(); 
+		for (CreditBatchEntryRecord entry : creditBatchEntryRecords) {
+			
+			documentNumber.append(entry.getDocumentNumber());
+			documentNumber.append(",");
+		}
+		
+		return documentNumber.toString().replaceAll(",$", "");
 	}
 
 

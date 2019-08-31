@@ -42,10 +42,10 @@ public abstract  class AbstractFileHandlerServiceDao {
 	protected  final static String QRY_FETCH_COMO_FILE_CONFIGURATIONS = "select file_type, sftp_url, source_path, sftp_port, sftp_user, dest_path, sftp_password, scheduled_date_time,description,file_name_convention from como_file_configurations order by file_type desc";
 	protected  final static String QRY_INSERT_CREDIT_FILES = "INSERT INTO settlement_files (file_name, total_successfull_record, total_failed_records, status,recieved_at) VALUES (?,?, ?, ?, ?)";
 	protected  final static String QRY_UPDATE_CREDIT_FILES = "UPDATE settlement_files SET total_successfull_record = ?, total_failed_records = ? , status = ? WHERE (file_sr_no = ?)";
-	protected  final static String QRY_INSERT_CREDIT_ENTRY_RECORD = "INSERT INTO credit_entry_record(invoice_number, agent_code, authorization_id, response_code, response_description,card_number, document_number, card_type, approval_code, passenger, amount, ticket_code, currency, passenger_code ,ariline_code, departure_airport, arrival_airport, stop_over_code,flight_code, issuer_city, merchant_agreement_id, invoice_name, airline_name, file_sr_no,invoice_date,batch_no,mid,departure_date,departure_month,tax_amount,ticket_restricted,transaction_type,file_type) VALUES (?,?,?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
+	protected  final static String QRY_INSERT_CREDIT_ENTRY_RECORD = "INSERT INTO credit_entry_record(invoice_number, agent_code, authorization_id, response_code, response_description,card_number, document_number, card_type, approval_code, passenger, amount, ticket_code, currency, passenger_code ,ariline_code, departure_airport, arrival_airport, stop_over_code,flight_code, issuer_city, merchant_agreement_id, invoice_name, airline_name, file_sr_no,invoice_date,batch_no,mid,departure_date,departure_month,tax_amount,ticket_restricted,transaction_type,file_type,status) VALUES (?,?,?,?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
 	protected  final static String QRY_FETCH_WORLD_PAY_CONFIGURATION = "select url, user,password from payment_processor_configuration where configuration_name = ? ";
 	protected  final static String QRY_FETCH_FILE_DATA_CONFIGUEATION = "select element_name,identifier,start_pos,length,description,file_type from file_data_configuration where file_type= ?";
-	protected  final static String QRY_FETCH_FILES_WITH_HALT_STATUS = "select sf.file_sr_no , sf.file_name, sf.total_successfull_record,sf.total_failed_records,sf.status,cer.document_number from settlement_files  sf inner join credit_entry_record cer on (cer.file_sr_no = sf.file_sr_no)  where sf.status = ? and sf.file_name = ? ";
+	protected  final static String QRY_FETCH_FILES_WITH_HALT_STATUS = "select sf.file_sr_no , sf.file_name, sf.total_successfull_record,sf.total_failed_records,sf.status,cer.document_number from settlement_files  sf inner join credit_entry_record cer on (cer.file_sr_no = sf.file_sr_no)  where sf.status = 'H' and sf.file_name = ? and cer.status = 'I'";
 	protected  final static String QRY_FETCH_COMO_FILE_PARAMS = "select param_id, param_value from como_file_params where is_active = 'Y'";
 	protected  final static String QRY_FETCH_ALL_PROCESSED_FILE_IF_EXIST = "select file_name from settlement_files where status ='P' and  file_name in (%S)";
 	protected  final static String QRY_INSERT_BIN_FILE_INFORMAITON = "insert into bin_file_information(file_sr_no, range_from,range_until,country, brand, issuer, family) values(?,?,?,?,?,?,?)";
@@ -65,7 +65,7 @@ public abstract  class AbstractFileHandlerServiceDao {
 	public abstract List<String> fetchAllProcessedFileIfExist(List<String> files); 
 	public abstract boolean persistBinFileInformation(List<BinInformation> binInformations,Long fileSrNo);
 	public abstract boolean persistMerchantFileInformation(List<MerchantInformation> merchantInformations, Long fileSrNo);
-	public abstract void  populateAgentCodeInformation(CreditBatchEntryRecord record) throws SQLException,Exception;
+	public abstract boolean  populateAgentCodeInformation(CreditBatchEntryRecord record) throws SQLException,Exception;
 	public abstract EmailInformation fetchEmailConfiguration(String templateId);
 	public abstract void truncateMidInformation();
 	public abstract void truncateBinInformation();

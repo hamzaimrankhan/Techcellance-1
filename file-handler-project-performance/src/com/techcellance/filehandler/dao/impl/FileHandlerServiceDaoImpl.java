@@ -145,7 +145,6 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 	@Override
 	public void persistCreditEntryRecord(int  fileType,Long fileSrno , List<CreditBatchEntryRecord> cRecords) {
 		
-		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int index = 0 ;
@@ -201,6 +200,7 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 			pstmt.setString(++index, cRecord.getTicketRestricted());
 			pstmt.setString(++index, cRecord.getTransactionType());
 			pstmt.setInt(++index, fileType);
+			pstmt.setString(++index, cRecord.getStatus());
 			
 			pstmt.addBatch();
 			
@@ -385,8 +385,7 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 				
 				conn=DatabaseConnectionPool.getInstance().getConnection() ;
 				
-				pstmt = conn.prepareStatement(QRY_FETCH_FILES_WITH_HALT_STATUS );
-				pstmt.setString(++index, Constants.HALT_STATUS);
+				pstmt = conn.prepareStatement(QRY_FETCH_FILES_WITH_HALT_STATUS );	
 				pstmt.setString(++index, fileName);
 				rs = pstmt.executeQuery();
 				
@@ -399,10 +398,9 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 						creditFile.setFileName( rs.getString(++index));
 						creditFile.setTotalSuccessfullRecord(rs.getInt(++index));
 						creditFile.setTotalFailedRecords(rs.getInt(++index));
-						creditFile.setFileStatus(rs.getString(++index));;
-					
+						creditFile.setFileStatus(rs.getString(++index));;	
 					}
-					creditFile.getAlreadyProcessedOrderIds().add(rs.getString("document_number"));
+					creditFile.getInProgressOrderNumbers().add(rs.getString("document_number"));
 				}
 			
 				LGR.info(LGR.isInfoEnabled()? "End of method fetchFileIfExitInHaltState": null);
@@ -635,11 +633,12 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 	}
 
 	@Override
-	public void populateAgentCodeInformation(CreditBatchEntryRecord record) throws SQLException,Exception{
+	public boolean populateAgentCodeInformation(CreditBatchEntryRecord record) throws SQLException,Exception{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int index = 0;
 		Connection conn = null ;
+		boolean isAgentCodePopulated = false;
 		try {		
 				LGR.info(LGR.isInfoEnabled()? "In method fetchAgentCodeInformation " : null);	
 				conn=DatabaseConnectionPool.getInstance().getConnection() ;
@@ -659,9 +658,15 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 					record.setLegalEntityCity(rs.getString(++index));
 					record.setLegalPostalCode(rs.getString(++index));
 					record.setLegalCountryCode(rs.getString(++index));
+					isAgentCodePopulated = true; 
+				}else {
+					record.setStatus(Constants.IN_PROGRESS);
+					isAgentCodePopulated = false;
 				}
 				
 				LGR.info(LGR.isInfoEnabled()? "End of method fetchAgentCodeInformation ": null);
+			
+			return isAgentCodePopulated; 
 		
 		} finally {
 			CommonUtils.closeStatement(pstmt);

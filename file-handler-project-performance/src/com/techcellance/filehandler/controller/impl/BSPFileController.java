@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,15 +61,9 @@ public class BSPFileController extends AbstractFileController {
 
 			for (String fileName : files) {
 
-				LGR.info(LGR.isInfoEnabled()
-						? "Going to process the COMO file with file type : " + fileConfiguration.getFileType()
-								+ " and file name = " + fileName
-						: null);
+				LGR.info(LGR.isInfoEnabled()? "Going to process the COMO file with file type : " + fileConfiguration.getFileType()+ " and file name = " + fileName: null);
 				responseInfo = proccessFile(fileName);
-				LGR.info(LGR.isInfoEnabled()
-						? " Response recieved from file ( " + fileName + ") is " + responseInfo.getRespCode()
-								+ " , response description: " + responseInfo.getRespDesc()
-						: null);
+				LGR.info(LGR.isInfoEnabled()? " Response recieved from file ( " + fileName + ") is " + responseInfo.getRespCode()+ " , response description: " + responseInfo.getRespDesc(): null);
 				resetCount();
 			}
 
@@ -80,8 +75,7 @@ public class BSPFileController extends AbstractFileController {
 		} finally {
 		}
 
-		CommonUtils.populateResponseInfo(responseInfo, ResponseCode.SUCCESS.getRespCode(),
-				ResponseCode.SUCCESS.getRespDesc(), null);
+		CommonUtils.populateResponseInfo(responseInfo, ResponseCode.SUCCESS.getRespCode(),ResponseCode.SUCCESS.getRespDesc(), null);
 		return responseInfo;
 
 	}
@@ -92,55 +86,50 @@ public class BSPFileController extends AbstractFileController {
 		Long fileSrNo = null;
 		ResponseInfo responseInfo = null;
 		AbstractFileHandlerServiceDao dao = null;
-
+		String fileStatus= null ;
+		List<String> inProgressOrdernumber = new ArrayList<String>();
 		LGR.info(LGR.isInfoEnabled() ? "In BSP File Controller Task.processFile" : null);
 
 		LGR.info(
-				LGR.isInfoEnabled()
-						? "Going to read the file(" + fileName
-								+ ") from the SFTP server and parse it to capture the transaction with starting time: "
-								+ CommonUtils.getCurrentFormatTime(Constants.DATE_TIME_FORMAT)
-						: null);
+				LGR.isInfoEnabled()? "Going to read the file(" + fileName+ ") from the SFTP server and parse it to capture the transaction with starting time: "+ CommonUtils.getCurrentFormatTime(Constants.DATE_TIME_FORMAT): null);
 		AbstractFileReaderTask fileReaderHandler = AbstractFileReaderTask.getInstance(fileConfiguration, fileName);
 		responseInfo = fileReaderHandler.readAndValidateFile();
-		LGR.info(
-				LGR.isInfoEnabled()
-						? " Response recieved from readAndParseFile : " + responseInfo.getRespCode()
-								+ " response descritpion : " + responseInfo.getRespDesc()
-						: null);
+		LGR.info(LGR.isInfoEnabled()? " Response recieved from readAndParseFile : " + responseInfo.getRespCode()+ " response descritpion : " + responseInfo.getRespDesc(): null);
 
 		if (!CommonUtils.isNullObject(responseInfo)
 				&& responseInfo.getRespCode().equalsIgnoreCase(ResponseCode.SUCCESS.getRespCode())) {
 			@SuppressWarnings("unchecked")
 			List<CreditFile> creditFiles = (List<CreditFile>) (responseInfo.getReturnData());
 			dao = AbstractFileHandlerServiceDao.getInstance();
+ 
+			CreditFile credFileInHaltState = AbstractFileHandlerServiceDao.getInstance().fetchFileIfExitInHaltState(fileName);
+			if(!CommonUtils.isNullObject(credFileInHaltState)){		
+					fileSrNo = credFileInHaltState.getFileSrNo();
+					this.failedRecordCount.set( credFileInHaltState.getTotalFailedRecords());
+					this.successFulRecordCount.set(credFileInHaltState.getTotalSuccessfullRecord());				
+					inProgressOrdernumber= credFileInHaltState.getInProgressOrderNumbers();
+			}
+			else {			
+				fileSrNo = dao.persistFile(fileName);
+			}
 
-//				credFileInHaltState = persistFileInformationAndCheckIfExistInHaltStatus(fileName);
-//				if(!CommonUtils.isNullObject(credFileInHaltState)){
-//					
-//					fileSrNo = credFileInHaltState.getFileSrNo();
-//					this.failedRecordCount.set( credFileInHaltState.getTotalFailedRecords());
-//					this.successFulRecordCount.set(credFileInHaltState.getTotalSuccessfullRecord());				
-//				}
-//				else {			
-			fileSrNo = dao.persistFile(fileName);
-//				}
-
-			// fileStatus =
-			// processFileforSettlement(creditFiles,conn,fileSrNo,!CommonUtils.isNullObject(credFileInHaltState)?credFileInHaltState.getAlreadyProcessedOrderIds():null);
-			processCreditFiles(creditFiles, fileSrNo);
-			// fileStatus wala kaam rehta hia
-			updateFilestatus = dao.updateFile(fileName, fileSrNo, this.successFulRecordCount, this.failedRecordCount,
-					Constants.SUCCESSFUL_STATUS);
-
+			processCreditFiles(creditFiles, fileSrNo,inProgressOrdernumber);
+			fileStatus = creditFiles.stream().anyMatch(creditFile -> Constants.HALT_STATUS.equalsIgnoreCase(creditFile.getFileStatus()))?Constants.HALT_STATUS:Constants.SUCCESSFUL_STATUS;	
+			
+			updateFilestatus = dao.updateFile(fileName, fileSrNo, this.successFulRecordCount, this.failedRecordCount,fileStatus);
+			
 			if (updateFilestatus) {
 				CommonUtils.populateResponseInfo(responseInfo, ResponseCode.SUCCESS.getRespCode(),
 						ResponseCode.SUCCESS.getRespDesc(), null);
-				// FTPUtil.moveProcessedFileFromSftpServer(fileConfiguration, fileName);
 			} else {
 				CommonUtils.populateResponseInfo(responseInfo, ResponseCode.FAIL.getRespCode(),
 						ResponseCode.FAIL.getRespDesc(), null);
 			}
+			
+			if(Constants.HALT_STATUS.equalsIgnoreCase(fileStatus)){
+				generateEmailforMisingMIDAgent(creditFiles,fileName);
+			}
+			
 		}
 
 		LGR.info(
@@ -150,83 +139,39 @@ public class BSPFileController extends AbstractFileController {
 						: null);
 		return responseInfo;
 	}
-//	private CreditFile persistFileInformationAndCheckIfExistInHaltStatus(String fileName) throws Exception {
-//		
-//		Connection conn=null; 
-//		conn= DatabaseConnectionPool.getInstance().getConnection() ;
-//		
-//		if(null == conn){
-//			
-//			LGR.warn("Unable to get  the connection for database persistance");
-//			return null;
-//		}
-//		
-//		AbstractFileHandlerServiceDao fileHandlerServiceDao = AbstractFileHandlerServiceDao.getInstance();
-//		return fileHandlerServiceDao.fetchFileIfExitInHaltState(fileName);
-//		
-//	}
+	
+	private void generateEmailforMisingMIDAgent(List<CreditFile> creditFiles,String fileName) {
+		List<CreditBatchEntryRecord> records =  getInProgressRecordsWithMissingMidAgentInformation(creditFiles);
+		CompletableFuture.runAsync(() -> EmailGenerationHandler.generateEmailForMissingMIDInformation(Constants.GEN_EMAIL_MISSING_MID_AGENT,records,fileName));	
+	}
 
-//	private String processFileforSettlement(List<CreditFile> creditFiles, Connection conn, Long fileSrNo, List<String> alreadyProcessedOrderIds) throws ParserConfigurationException,Exception, TransformerException {
-//		
-//		Integer responseCode= -1;
-//		String fileStatus = null;
-//		PaymentServiceProcessor serviceProcessor = new PaymentServiceProcessor(); 
-//		
-//		
-//		
-//		
-//		
-//		for (CreditFile creditFile : creditFiles) {
-//			
-//			for (CreditInvoiceHeader crHeader : creditFile.getCreditInvoiceHeaders()) {
-//				
-//				for (CreditBatch batch : crHeader.getCreditBatchs()) {
-//					
-//					for (CreditBatchEntryRecord entry: batch.getBatchEntryRecords()) {
-//					
-//						if(!CommonUtils.isNullOrEmptyCollection(alreadyProcessedOrderIds) && alreadyProcessedOrderIds.contains(entry.getDocumentNumber()))
-//						{
-//							LGR.info(LGR.isInfoEnabled()?"Order Number ("+ entry.getDocumentNumber() + ") is already being processed for the file in halt status file sr no: " + fileSrNo +" ,so going to skip the record"  :null );
-//							continue;
-//						}
-//					
-//						serviceProcessor.processCreditBatchEntryRecord(entry,this.successFulRecordCount,this.failedRecordCount);		
-//						responseCode =!CommonUtils.isNullOrEmptyString(entry.getResponseCode())? Integer.parseInt(entry.getResponseCode()):-1;
-//						
-//						if(responseCode == -1  ||  Constants.SERVICE_UNAVAILABLE_RESPONSE == responseCode ) {
-//							LGR.info(LGR.isInfoEnabled() ?"Response recieved from world payment gateway is " + responseCode + " so going to set the status of file to Halt for later processing": null);
-//							fileStatus = Constants.HALT_STATUS;
-//							return fileStatus; 
-//						}
-//						
-//						dao.persistCreditEntryRecord(fileConfiguration.getFileType(),fileSrNo , entry);
-//						
-//					}
-//					
-//				}
-//				
-//			}
-//			fileStatus = Constants.SUCCESSFUL_STATUS;
-//		}
-//		
-//		return fileStatus;
-//	}
+	private List<CreditBatchEntryRecord> getInProgressRecordsWithMissingMidAgentInformation(List<CreditFile> creditFiles) {
+		
+		List<CreditBatchEntryRecord> records = new ArrayList<CreditBatchEntryRecord>(); 
+		
+		for (CreditFile creditFile : creditFiles) {
+			for (CreditInvoiceHeader header : creditFile.getCreditInvoiceHeaders()) {
+				for (CreditBatch batch : header.getCreditBatchs()) {
+					records.addAll(batch.getBatchEntryRecords().stream().filter(entry-> Constants.IN_PROGRESS.equalsIgnoreCase(entry.getStatus())).collect(Collectors.toList()));
+				}
+			}
+		}
+		
+		return records;
+	}
 
 	@SuppressWarnings("rawtypes")
-	private void processCreditFiles(List<CreditFile> creditFiles, Long fileSrNo) {
+	private void processCreditFiles(List<CreditFile> creditFiles, Long fileSrNo, List<String> inProgressOrdernumber) {
 		try {
 
 			List<CompletableFuture> processCreditFileFutureList = new ArrayList<>();
 			CreditFileThreadPool.initializePool(Constants.CFH_THREAD_POOL_SIZE);
 			for (CreditFile creditFile : creditFiles) {
-				processCreditFileFutureList.add(CompletableFuture.runAsync(
-						() -> processCreditEntries(creditFile, fileSrNo), CreditFileThreadPool.getThreadPool()));
+				processCreditFileFutureList.add(CompletableFuture.runAsync(() -> processCreditEntries(creditFile, fileSrNo,inProgressOrdernumber), CreditFileThreadPool.getThreadPool()));
 			}
-
-			CompletableFuture.allOf(
-					processCreditFileFutureList.toArray(new CompletableFuture[processCreditFileFutureList.size()]))
-					.get();
-
+			CompletableFuture.allOf(processCreditFileFutureList.toArray(new CompletableFuture[processCreditFileFutureList.size()])).get();
+	
+			
 		} catch (Exception e) {
 			LGR.error("##Exception## while processing credit entries: ", e);
 		} finally {
@@ -236,15 +181,15 @@ public class BSPFileController extends AbstractFileController {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private void processCreditEntries(CreditFile creditFile, Long fileSrNo) {
+	private void processCreditEntries(CreditFile creditFile, Long fileSrNo, List<String> inProgressOrdernumber) {
 		try {
 
 			CreditEntryThreadPool.initializePool(Constants.CBR_THREAD_POOL_SIZE);
 
 			List<CompletableFuture> processCreditEntryFutureList = new ArrayList<>();
-			List<CreditBatchEntryRecord> crRecords = getallCreditEntryRecords(creditFile);
+			List<CreditBatchEntryRecord> crRecords = getallCreditEntryRecords(creditFile,inProgressOrdernumber);
 			AbstractFileHandlerServiceDao dao = AbstractFileHandlerServiceDao.getInstance();
-
+	
 			for (CreditBatchEntryRecord record : crRecords) {
 				processCreditEntryFutureList.add(CompletableFuture.runAsync(() -> {
 					try {
@@ -255,9 +200,14 @@ public class BSPFileController extends AbstractFileController {
 					}
 				}, CreditEntryThreadPool.getThreadPool()));
 			}
-			CompletableFuture.allOf(
-					processCreditEntryFutureList.toArray(new CompletableFuture[processCreditEntryFutureList.size()]))
-					.get();
+			CompletableFuture.allOf(processCreditEntryFutureList.toArray(new CompletableFuture[processCreditEntryFutureList.size()])).get();
+			
+			if (crRecords.stream().anyMatch(entry -> Constants.IN_PROGRESS.equalsIgnoreCase(entry.getStatus()))) {
+				creditFile.setFileStatus(Constants.HALT_STATUS);
+			} else {
+				creditFile.setFileStatus(Constants.SUCCESSFUL_STATUS);
+			}
+			
 			dao.persistCreditEntryRecord(fileConfiguration.getFileType(), fileSrNo, crRecords);
 
 		} catch (Exception ex) {
@@ -275,7 +225,7 @@ public class BSPFileController extends AbstractFileController {
 				this.failedRecordCount);
 	}
 
-	private List<CreditBatchEntryRecord> getallCreditEntryRecords(CreditFile creditFile) throws Exception {
+	private List<CreditBatchEntryRecord> getallCreditEntryRecords(CreditFile creditFile, List<String> inProgressOrdernumber) throws Exception {
 		List<CreditBatchEntryRecord> records = new ArrayList<CreditBatchEntryRecord>();
 
 		for (CreditInvoiceHeader header : creditFile.getCreditInvoiceHeaders()) {
@@ -283,6 +233,7 @@ public class BSPFileController extends AbstractFileController {
 				records.addAll(batch.getBatchEntryRecords());
 			}
 		}
+		records = records.stream().filter(record -> !inProgressOrdernumber.contains(record.getDocumentNumber())).collect(Collectors.toList());
 		return records;
 	}
 
