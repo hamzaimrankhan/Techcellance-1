@@ -300,11 +300,15 @@ public class PaymentServiceProcessor {
 			Element arrivalAirport = document.createElement("arrivalAirport");
 			arrivalAirport.appendChild(document.createTextNode(!CommonUtils.isNullOrEmptyString(flightInformation.getArrivalAirport())?flightInformation.getArrivalAirport():DefaultTagValues.ARRIVAL_AIRPORT));
 			flight.appendChild(arrivalAirport);
-			
+
 			Element departureDate = document.createElement("departureDate");
 			Element date2 = document.createElement("date");
 			flight.appendChild(departureDate);
 			departureDate.appendChild(date2);
+			
+			if(CommonUtils.isNullOrEmptyString(credEntryRecord.getDepartureDate())){
+				CommonUtils.populateCurrentDepartureDate(credEntryRecord);
+			}
 			attr = document.createAttribute("dayOfMonth");
 			attr.setValue(credEntryRecord.getDepartureDate());	
 			date2.setAttributeNode(attr);
@@ -314,7 +318,7 @@ public class PaymentServiceProcessor {
 			attr = document.createAttribute("year");
 			attr.setValue(credEntryRecord.getDepartureYear());
 			date2.setAttributeNode(attr);
-
+		
 			Element farebase = document.createElement("fare");
 			flight.appendChild(farebase);
 			attr = document.createAttribute("class");
@@ -329,20 +333,15 @@ public class PaymentServiceProcessor {
 			Element amount2 = document.createElement("amount");
 			tax.appendChild(amount2);
 			attr = document.createAttribute("value");
-			//attr.setValue((index++ == 0)  ? "4000": "0");
 			attr.setValue((index++ == 0)  ?  Integer.toString(credEntryRecord.getEntryAdditionalInformation().getTaxAmount() ): "0");
 			amount2.setAttributeNode(attr);	
-			
 			attr = document.createAttribute("currencyCode");
 			attr.setValue(credEntryRecord.getCurrency());
 			amount2.setAttributeNode(attr);
-
 			attr = document.createAttribute("exponent");
 			attr.setValue("2");
 			amount2.setAttributeNode(attr);
-
 		}
-
 	}
 
 	private   void populateCaptureResponseForTransaction(String response, CreditBatchEntryRecord entry, AtomicInteger successFulRecordCount, AtomicInteger failedRecordCount)throws ParserConfigurationException , SAXException , IOException {
@@ -467,7 +466,7 @@ public class PaymentServiceProcessor {
          paymentService.appendChild(submit); //submit tag has no attribute
          Element order=  document.createElement("order");
          attr = document.createAttribute("orderCode");
-         attr.setValue("R"+(!CommonUtils.isNullOrEmptyString(entry.getDocumentNumber())?entry.getDocumentNumber():DefaultTagValues.DOCUMENT_NUMBER));
+         attr.setValue((!CommonUtils.isNullOrEmptyString(entry.getDocumentNumber())?entry.getDocumentNumber():DefaultTagValues.DOCUMENT_NUMBER));
          order.setAttributeNode(attr);
          
          submit.appendChild(order);
@@ -516,7 +515,7 @@ public class PaymentServiceProcessor {
          attr = document.createAttribute("month");
          attr.setValue((!CommonUtils.isNullOrEmptyString(entry.getExpiry()) && entry.getExpiry().length() ==4)?entry.getExpiry().substring(0,2):DefaultTagValues.EXPIRY_MONTH);
          date.setAttributeNode(attr);
-         
+        
          attr = document.createAttribute("year");
          attr.setValue((!CommonUtils.isNullOrEmptyString(entry.getExpiry()) && entry.getExpiry().length() ==4)? "20"+ entry.getExpiry().substring(2,4):DefaultTagValues.EXPIRY_YEAR);
          date.setAttributeNode(attr);
@@ -643,7 +642,7 @@ public class PaymentServiceProcessor {
 		LGR.info(LGR.isInfoEnabled()? "Going to generate XML request for entry with document number: " +  entry.getDocumentNumber() +  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()):null);
 		String xmlRequest =generateXMLRequest(entry);
 		LGR.debug(LGR.isDebugEnabled()? "XML request generated for entry record with document number: " +  entry.getDocumentNumber() +  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()) + "is \n" + xmlRequest  :null);
-		
+				
 		LGR.info(LGR.isInfoEnabled() ? "Going to capture transaction for entry with document number:  " + entry.getDocumentNumber()+  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()) : null);
 		String response = PaymentServiceProcessor.getInstance().captureTransaction(xmlRequest);
 		LGR.debug(LGR.isDebugEnabled()? "XML response recieved for entry record with document number: " +  entry.getDocumentNumber() +  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()) + "is \n" + response  :null);

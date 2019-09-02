@@ -10,48 +10,43 @@ import org.apache.logging.log4j.Logger;
 
 import com.techcellance.filehandler.beans.ResponseInfo;
 
-public final class CreditFileThreadPool {
-
-	private static Logger LGR = LogManager.getLogger(CreditFileThreadPool.class);
+public final class ThreadPool {
+	private static Logger LGR = LogManager.getLogger(ThreadPool.class);
 	
-	private static ExecutorService threadPool = null;
+	private  ExecutorService threadPool = null;
 
-    private  CreditFileThreadPool() {
-
+    public ThreadPool() {
+    
     }
     
-    public synchronized  static void initializePool(int threadPoolSize) {
+    public synchronized   void initializePool(int threadPoolSize) {
         if (threadPool != null) {
             return;
         }
-        synchronized (CreditFileThreadPool.class) {
+        synchronized (ThreadPool.class) {
             threadPool = Executors.newFixedThreadPool(threadPoolSize);
         }
     }
 
-    public static ExecutorService getThreadPool(){
+    public  ExecutorService getThreadPool(){
         return threadPool;
     }
 
-    public static Future<ResponseInfo> processTask(Callable<ResponseInfo> task) {
+    public  Future<ResponseInfo> processTask(Callable<ResponseInfo> task) {
         return threadPool.submit(task);
     }
 
-    public static Future<Boolean> processSimpleResponseTask(Callable<Boolean> task) {
+    public  Future<Boolean> processSimpleResponseTask(Callable<Boolean> task) {
         return threadPool.submit(task);
     }
 
-    public static void processTask(Runnable task) {
+    public  void processTask(Runnable task) {
         LGR.info(LGR.isInfoEnabled() ? "Executing provided task by allocating a thread from pool... " : null);
         threadPool.execute(task);
     }
 
-    public static void shutDownPool() {
+    public  void shutDownPool() {
         threadPool.shutdown();
     }
 
-	
-
-	
-	
 }

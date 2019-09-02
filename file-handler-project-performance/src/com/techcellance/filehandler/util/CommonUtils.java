@@ -494,5 +494,14 @@ public class CommonUtils {
 		return documentNumber.toString().replaceAll(",$", "");
 	}
 
+	public static void populateCurrentDepartureDate(CreditBatchEntryRecord credEntryRecord) {
+		
+		Calendar currentDate = Calendar.getInstance();
+		credEntryRecord.setDepartureMonth(Integer.toString(currentDate.get(Calendar.MONTH)));
+		credEntryRecord.setDepartureDate(Integer.toString(currentDate.get(Calendar.DAY_OF_MONTH)));
+		credEntryRecord.setDepartureYear(Integer.toString(currentDate.get(Calendar.YEAR)));
+		
+	}
+
 
 }

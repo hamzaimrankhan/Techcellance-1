@@ -21,8 +21,7 @@ import com.techcellance.filehandler.controller.AbstractFileController;
 import com.techcellance.filehandler.dao.AbstractFileHandlerServiceDao;
 import com.techcellance.filehandler.enums.ResponseCode;
 import com.techcellance.filehandler.reader.AbstractFileReaderTask;
-import com.techcellance.filehandler.threadpool.CreditEntryThreadPool;
-import com.techcellance.filehandler.threadpool.CreditFileThreadPool;
+import com.techcellance.filehandler.threadpool.ThreadPool;
 import com.techcellance.filehandler.util.CommonUtils;
 import com.techcellance.filehandler.util.Constants;
 import com.techcellance.filehandler.util.FTPUtil;
@@ -162,12 +161,14 @@ public class BSPFileController extends AbstractFileController {
 
 	@SuppressWarnings("rawtypes")
 	private void processCreditFiles(List<CreditFile> creditFiles, Long fileSrNo, List<String> inProgressOrdernumber) {
-		try {
+		
 
-			List<CompletableFuture> processCreditFileFutureList = new ArrayList<>();
-			CreditFileThreadPool.initializePool(Constants.CFH_THREAD_POOL_SIZE);
+		List<CompletableFuture> processCreditFileFutureList = new ArrayList<>();
+		ThreadPool  creditFileThreadPool = new ThreadPool() ;
+		try {
+			creditFileThreadPool.initializePool(Constants.CFH_THREAD_POOL_SIZE);
 			for (CreditFile creditFile : creditFiles) {
-				processCreditFileFutureList.add(CompletableFuture.runAsync(() -> processCreditEntries(creditFile, fileSrNo,inProgressOrdernumber), CreditFileThreadPool.getThreadPool()));
+				processCreditFileFutureList.add(CompletableFuture.runAsync(() -> processCreditEntries(creditFile, fileSrNo,inProgressOrdernumber), creditFileThreadPool.getThreadPool()));
 			}
 			CompletableFuture.allOf(processCreditFileFutureList.toArray(new CompletableFuture[processCreditFileFutureList.size()])).get();
 	
@@ -175,18 +176,20 @@ public class BSPFileController extends AbstractFileController {
 		} catch (Exception e) {
 			LGR.error("##Exception## while processing credit entries: ", e);
 		} finally {
-			CreditFileThreadPool.shutDownPool();
+			creditFileThreadPool.shutDownPool();
 		}
 
 	}
 
 	@SuppressWarnings("rawtypes")
 	private void processCreditEntries(CreditFile creditFile, Long fileSrNo, List<String> inProgressOrdernumber) {
+		
+		ThreadPool creditFileEntryThreadPool = new ThreadPool(); 
+		List<CompletableFuture> processCreditEntryFutureList = new ArrayList<>();
+		
 		try {
 
-			CreditEntryThreadPool.initializePool(Constants.CBR_THREAD_POOL_SIZE);
-
-			List<CompletableFuture> processCreditEntryFutureList = new ArrayList<>();
+			creditFileEntryThreadPool.initializePool(Constants.CBR_THREAD_POOL_SIZE);
 			List<CreditBatchEntryRecord> crRecords = getallCreditEntryRecords(creditFile,inProgressOrdernumber);
 			AbstractFileHandlerServiceDao dao = AbstractFileHandlerServiceDao.getInstance();
 	
@@ -198,7 +201,7 @@ public class BSPFileController extends AbstractFileController {
 						LGR.error("##Exception## while processing credit entries: ", e);
 
 					}
-				}, CreditEntryThreadPool.getThreadPool()));
+				}, creditFileEntryThreadPool.getThreadPool()));
 			}
 			CompletableFuture.allOf(processCreditEntryFutureList.toArray(new CompletableFuture[processCreditEntryFutureList.size()])).get();
 			
@@ -215,7 +218,7 @@ public class BSPFileController extends AbstractFileController {
 
 		} finally {
 
-			CreditEntryThreadPool.shutDownPool();
+			creditFileEntryThreadPool.shutDownPool();
 		}
 	}
 

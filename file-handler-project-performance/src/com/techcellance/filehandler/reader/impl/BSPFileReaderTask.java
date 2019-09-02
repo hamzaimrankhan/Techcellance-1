@@ -232,7 +232,6 @@ public class BSPFileReaderTask extends AbstractFileReaderTask
 		creditBatchEntryRecord.setTransactionType(transactionType);
 		creditBatchEntryRecord.setAmmount(CommonUtils.removeLeadingZeors(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.Ammount.name())));
 		creditBatchEntryRecord.setCurrency(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.Currency.name()));	
-		creditBatchEntryRecord.setDocumentNumber(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.DocumentNumber.name()));
 		creditBatchEntryRecord.setCardType(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.CardType.name()));
 		creditBatchEntryRecord.setCardNumber(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.CardNumber.name()));
 		creditBatchEntryRecord.setExpiry(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.Expiry.name()));
@@ -254,6 +253,14 @@ public class BSPFileReaderTask extends AbstractFileReaderTask
 		creditBatchEntryRecord.setDepartureDate(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.DepartureDate.name()));
 		creditBatchEntryRecord.setDepartureMonth(CommonUtils.getMonthInNumeric(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.DepartureMonth.name())));
 		creditBatchEntryRecord.setDepartureYear(CommonUtils.getDepartureDateYear(creditBatchEntryRecord.getDepartureMonth(),creditBatchEntryRecord.getDepartureDate()));
+		creditBatchEntryRecord.setDocumentNumber(fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.DocumentNumber.name()));	
+		if(CommonUtils.isNullOrEmptyString(creditBatchEntryRecord.getTicketRestricted()) || !creditBatchEntryRecord.getTicketRestricted().equals("1")) {
+			creditBatchEntryRecord.setTicketRestricted("0");
+		}
+		
+		}
+		else if(Constants.CREDIT_TRANSACTION.equalsIgnoreCase(transactionType)){
+			creditBatchEntryRecord.setDocumentNumber(Constants.CREDIT_TRANS_APPENDER + fileAttributeController.getAttributeFromrecord(line, EntryRecordAttribute.DocumentNumber.name()));
 		}
 		
 		line  = readLine(bf);

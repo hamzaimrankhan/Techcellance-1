@@ -18,7 +18,7 @@ import com.techcellance.filehandler.controller.AbstractFileController;
 import com.techcellance.filehandler.dao.AbstractFileHandlerServiceDao;
 import com.techcellance.filehandler.enums.ResponseCode;
 import com.techcellance.filehandler.reader.AbstractFileReaderTask;
-import com.techcellance.filehandler.threadpool.BinEntryThreadPool;
+import com.techcellance.filehandler.threadpool.ThreadPool;
 import com.techcellance.filehandler.util.CommonUtils;
 import com.techcellance.filehandler.util.Constants;
 import com.techcellance.filehandler.util.FTPUtil;
@@ -147,18 +147,20 @@ public class BinFileController extends AbstractFileController {
 
 	@SuppressWarnings("rawtypes")
 	private boolean processBinFiles(BinFile binFile, Long fileSrNo)throws Exception {        
-        try {
+       
+    	List<CompletableFuture> processBinEntryFutureList = new ArrayList<>();
+    	ThreadPool threadPool = new ThreadPool();
+       try {
 
-        	List<CompletableFuture> processBinEntryFutureList = new ArrayList<>();
 
             this.successFulRecordCount.set(binFile.getBinInformationList().size());
             List<List<BinInformation>> subBinInfoList =  ListUtils.partition(binFile.getBinInformationList(), Constants.BIN_RECORD_BATCH_SIZE);
             int threadPoolSize = subBinInfoList.size()/2 ; 
-            BinEntryThreadPool.initializePool(threadPoolSize> 0 ? threadPoolSize : 1 );
+            threadPool.initializePool(threadPoolSize> 0 ? threadPoolSize : 1 );
         	
             
             for (List<BinInformation> records:subBinInfoList) {
-                processBinEntryFutureList.add(CompletableFuture.runAsync(() -> persistBinInformation(records, fileSrNo), BinEntryThreadPool.getThreadPool()));
+                processBinEntryFutureList.add(CompletableFuture.runAsync(() -> persistBinInformation(records, fileSrNo), threadPool.getThreadPool()));
             }
         
            CompletableFuture.allOf(processBinEntryFutureList.toArray(new CompletableFuture[processBinEntryFutureList.size()])).get();        
@@ -168,7 +170,7 @@ public class BinFileController extends AbstractFileController {
             LGR.error("##Exception## while processing bin entries: ", e);
             return false;
         } finally {
-        	BinEntryThreadPool.shutDownPool();
+        	threadPool.shutDownPool();
         }
     }
 

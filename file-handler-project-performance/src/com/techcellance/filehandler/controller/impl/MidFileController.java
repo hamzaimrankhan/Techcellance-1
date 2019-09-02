@@ -18,7 +18,7 @@ import com.techcellance.filehandler.controller.AbstractFileController;
 import com.techcellance.filehandler.dao.AbstractFileHandlerServiceDao;
 import com.techcellance.filehandler.enums.ResponseCode;
 import com.techcellance.filehandler.reader.AbstractFileReaderTask;
-import com.techcellance.filehandler.threadpool.MidEntryThreadPool;
+import com.techcellance.filehandler.threadpool.ThreadPool;
 import com.techcellance.filehandler.util.CommonUtils;
 import com.techcellance.filehandler.util.Constants;
 import com.techcellance.filehandler.util.FTPUtil;
@@ -150,19 +150,20 @@ public class MidFileController extends AbstractFileController {
 
 	@SuppressWarnings("rawtypes")
 	private boolean processMidFiles(MIDFile midFile, Long fileSrNo)throws Exception {
-    		  
+    	
+		  ThreadPool midEntryThreadPool = new ThreadPool();
+      	  List<CompletableFuture> processBinEntryFutureList = new ArrayList<>();
         try {
 
-        	List<CompletableFuture> processBinEntryFutureList = new ArrayList<>();
             this.successFulRecordCount.set(midFile.getMerchantInformationList().size());
             List<List<MerchantInformation>> subMerchantInfoList =  ListUtils.partition(midFile.getMerchantInformationList(), Constants.BIN_RECORD_BATCH_SIZE);
             int threadPool = subMerchantInfoList.size()/2;
-            
-            MidEntryThreadPool.initializePool(threadPool!= 0 ? threadPool :1);
+      
+            midEntryThreadPool.initializePool(threadPool!= 0 ? threadPool :1);
         	
             
             for (List<MerchantInformation> records:subMerchantInfoList) {
-                processBinEntryFutureList.add(CompletableFuture.runAsync(() -> persistMerchantInformation(records, fileSrNo), MidEntryThreadPool.getThreadPool()));
+                processBinEntryFutureList.add(CompletableFuture.runAsync(() -> persistMerchantInformation(records, fileSrNo), midEntryThreadPool.getThreadPool()));
             }
         
            CompletableFuture.allOf(processBinEntryFutureList.toArray(new CompletableFuture[processBinEntryFutureList.size()])).get();        
@@ -172,8 +173,8 @@ public class MidFileController extends AbstractFileController {
             LGR.error("##Exception## while processing bin entries: ", e);
             return false;
         } finally {
-        	MidEntryThreadPool.shutDownPool();
-        }
+        	midEntryThreadPool.shutDownPool();
+        }	
    
     }
 

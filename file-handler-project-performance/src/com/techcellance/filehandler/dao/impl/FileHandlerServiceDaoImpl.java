@@ -186,7 +186,7 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 			pstmt.setNull(++index, Types.NULL);
 			pstmt.setNull(++index, Types.NULL);
 
-			pstmt.setString(++index, cRecord.getIssuerCity());
+			pstmt.setString(++index, cRecord.getLegalEntityCity());
 			pstmt.setString(++index, cRecord.getMerchantAgreementId());
 			pstmt.setString(++index , cRecord.getInvoiceName());
 		    pstmt.setString(++index , cRecord.getAirlineName());
@@ -646,7 +646,7 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 				pstmt = conn.prepareStatement(QRY_FETCH_AGENT_CODE_INFORMAITON );
 				pstmt.setString(++index, "%" + record.getCurrency()+ "%");
 				pstmt.setString(++index,record.getCountryCode());
-				pstmt.setString(++index, record.getAgentCode());
+				pstmt.setString(++index, record.getMerchantAgreementId());
 				pstmt.setLong(++index, CommonUtils.getFirstElevenDigitOfCardNumber(record.getCardNumber()));
 				
 				rs = pstmt.executeQuery();
