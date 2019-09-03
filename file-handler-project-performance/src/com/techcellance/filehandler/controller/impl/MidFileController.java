@@ -72,7 +72,7 @@ public class MidFileController extends AbstractFileController {
 		{
 			LGR.error("Exception occurred in MIDFileController.call  Exception : " + e.getMessage(), e);
 			CommonUtils.populateResponseInfo(responseInfo, ResponseCode.SYSTEM_MALFUNCTION.getRespCode(), e.getMessage(), e);
-			CompletableFuture.runAsync(() -> EmailGenerationHandler.generateEmailForSystemException(Constants.GEN_EMAIL_SYSTEM_EXCEPTION,e));
+			EmailGenerationHandler.generateEmailForSystemException(Constants.GEN_EMAIL_SYSTEM_EXCEPTION,e);
 			return responseInfo;
 		}
 		finally
@@ -105,8 +105,7 @@ public class MidFileController extends AbstractFileController {
 					responseInfo = processMIDFileExecution(midFile,fileName);
 
 			if (isErrorRecordExists) {
-				CompletableFuture.runAsync(() -> EmailGenerationHandler.generateEmailForFailedRecords(
-						Constants.GEN_EMAIL_FAILED_RECORD, midFile.getFailedEntryInfos(), midFile.getFileName()));
+				EmailGenerationHandler.generateEmailForFailedRecords(Constants.GEN_EMAIL_FAILED_RECORD, midFile.getFailedEntryInfos(), midFile.getFileName());
 				
 			}
 			

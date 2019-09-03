@@ -69,7 +69,7 @@ public class BSPFileController extends AbstractFileController {
 		} catch (Exception e) {
 			LGR.error("Exception occurred in BSPFileController.call  Exception : " + e.getMessage(), e);
 			CommonUtils.populateResponseInfo(responseInfo, ResponseCode.SYSTEM_MALFUNCTION.getRespCode(),e.getMessage(), e);
-			CompletableFuture.runAsync(() -> EmailGenerationHandler.generateEmailForSystemException(Constants.GEN_EMAIL_SYSTEM_EXCEPTION,e));
+			EmailGenerationHandler.generateEmailForSystemException(Constants.GEN_EMAIL_SYSTEM_EXCEPTION,e);
 			return responseInfo;
 		} finally {
 		}
@@ -141,7 +141,7 @@ public class BSPFileController extends AbstractFileController {
 	
 	private void generateEmailforMisingMIDAgent(List<CreditFile> creditFiles,String fileName) {
 		List<CreditBatchEntryRecord> records =  getInProgressRecordsWithMissingMidAgentInformation(creditFiles);
-		CompletableFuture.runAsync(() -> EmailGenerationHandler.generateEmailForMissingMIDInformation(Constants.GEN_EMAIL_MISSING_MID_AGENT,records,fileName));	
+		EmailGenerationHandler.generateEmailForMissingMIDInformation(Constants.GEN_EMAIL_MISSING_MID_AGENT,records,fileName);	
 	}
 
 	private List<CreditBatchEntryRecord> getInProgressRecordsWithMissingMidAgentInformation(List<CreditFile> creditFiles) {
@@ -211,8 +211,15 @@ public class BSPFileController extends AbstractFileController {
 				creditFile.setFileStatus(Constants.SUCCESSFUL_STATUS);
 			}
 			
-			dao.persistCreditEntryRecord(fileConfiguration.getFileType(), fileSrNo, crRecords);
-
+			if(!CommonUtils.isNullOrEmptyCollection(inProgressOrdernumber)) {
+				
+			dao.updateCreditEntryRecord(fileConfiguration.getFileType(), fileSrNo, crRecords);
+			}
+			else {
+			
+				dao.persistCreditEntryRecord(fileConfiguration.getFileType(), fileSrNo, crRecords);
+			}
+		
 		} catch (Exception ex) {
 			LGR.error("Exception in processCreditEntries, ", ex);
 
@@ -236,7 +243,10 @@ public class BSPFileController extends AbstractFileController {
 				records.addAll(batch.getBatchEntryRecords());
 			}
 		}
-		records = records.stream().filter(record -> !inProgressOrdernumber.contains(record.getDocumentNumber())).collect(Collectors.toList());
+		if(!CommonUtils.isNullOrEmptyCollection(inProgressOrdernumber)) {
+		records = records.stream().filter(record -> inProgressOrdernumber.contains(record.getDocumentNumber())).collect(Collectors.toList());
+		}
+		
 		return records;
 	}
 

@@ -72,7 +72,7 @@ public class BinFileController extends AbstractFileController {
 		{
 			LGR.error("Exception occurred in BinFileController.call  Exception : " + e.getMessage(), e);
 			CommonUtils.populateResponseInfo(responseInfo, ResponseCode.SYSTEM_MALFUNCTION.getRespCode(), e.getMessage(), e);
-			CompletableFuture.runAsync(() -> EmailGenerationHandler.generateEmailForSystemException(Constants.GEN_EMAIL_SYSTEM_EXCEPTION,e));
+			EmailGenerationHandler.generateEmailForSystemException(Constants.GEN_EMAIL_SYSTEM_EXCEPTION,e);
 			return responseInfo;
 		}
 		finally
@@ -107,8 +107,7 @@ public class BinFileController extends AbstractFileController {
 					responseInfo = processBinFileExecution(binFile,fileName);
 					
 			if (isErrorRecordExist) {
-				CompletableFuture.runAsync(() -> EmailGenerationHandler.generateEmailForFailedRecords(
-						Constants.GEN_EMAIL_FAILED_RECORD, binFile.getFailedEntryInfos(), binFile.getFileName()));
+				EmailGenerationHandler.generateEmailForFailedRecords(Constants.GEN_EMAIL_FAILED_RECORD, binFile.getFailedEntryInfos(), binFile.getFileName());
 			}
 				
 			}			

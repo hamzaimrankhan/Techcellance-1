@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
@@ -658,6 +659,7 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 					record.setLegalEntityCity(rs.getString(++index));
 					record.setLegalPostalCode(rs.getString(++index));
 					record.setLegalCountryCode(rs.getString(++index));
+					record.setStatus(Constants.SUCCESSFUL_STATUS);					
 					isAgentCodePopulated = true; 
 				}else {
 					record.setStatus(Constants.IN_PROGRESS);
@@ -780,5 +782,91 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 				CommonUtils.returnConnection(conn);
 		}
 		
+	}
+
+	@Override
+	public void updateCreditEntryRecord(int fileType, Long fileSrNo,List<CreditBatchEntryRecord> cRecords) {
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int index = 0 ;
+		Connection conn= null;
+		
+		try
+		{
+
+			conn= DatabaseConnectionPool.getInstance().getConnection() ;
+			if(null == conn){
+				
+				LGR.warn("Unable to get  the connection for database persistance");
+				return; 
+			}
+			
+			
+			pstmt = conn.prepareStatement(QRY_UPDATE_CREDIT_ENTRY_RECORD);
+			
+			cRecords = cRecords.stream().filter(record -> Constants.SUCCESSFUL_STATUS.equalsIgnoreCase(record.getStatus())).collect(Collectors.toList());
+			
+			for (CreditBatchEntryRecord cRecord : cRecords) {
+				
+			LGR.debug(LGR.isDebugEnabled()? "Going to persit entry record with document number: " + cRecord.getDocumentNumber() : null);
+			index = 0;
+			pstmt.setString(++index,cRecord.getInvoiceNumber());
+			pstmt.setString(++index,cRecord.getAgentCode());
+			pstmt.setString(++index, cRecord.getAuthorizationId());
+			pstmt.setString(++index, cRecord.getResponseCode());
+			pstmt.setString(++index, cRecord.getResponseDescription());
+			pstmt.setString(++index, CommonUtils.getMaskedCardNumber(cRecord.getCardNumber()));
+			pstmt.setString(++index, cRecord.getCardType());
+			pstmt.setString(++index, cRecord.getApprovalCode());
+			pstmt.setString(++index, cRecord.getPassenger());
+			pstmt.setString(++index, cRecord.getAmmount());
+			pstmt.setString(++index, cRecord.getTicketCode());
+			pstmt.setString(++index, cRecord.getCurrency());
+			pstmt.setString(++index, cRecord.getPassengerCode());				
+			pstmt.setNull(++index, Types.NULL);
+			pstmt.setNull(++index, Types.NULL);
+			pstmt.setNull(++index, Types.NULL);
+			pstmt.setNull(++index, Types.NULL);
+			pstmt.setNull(++index, Types.NULL);
+
+			pstmt.setString(++index, cRecord.getLegalEntityCity());
+			pstmt.setString(++index, cRecord.getMerchantAgreementId());
+			pstmt.setString(++index , cRecord.getInvoiceName());
+		    pstmt.setString(++index , cRecord.getAirlineName());
+			pstmt.setLong(++index, fileSrNo);
+			pstmt.setTimestamp(++index,  new Timestamp(CommonUtils.GetDateTime(cRecord.getInvoiceDate()).getTime()));
+			pstmt.setString(++index, cRecord.getBatchNumber());
+			pstmt.setString(++index, cRecord.getMidLookUpCode());
+			pstmt.setString(++index, cRecord.getDepartureDate());
+			pstmt.setString(++index, cRecord.getDepartureMonth());
+			pstmt.setDouble(++index, cRecord.getEntryAdditionalInformation().getTaxAmount());			
+			pstmt.setString(++index, cRecord.getTicketRestricted());
+			pstmt.setString(++index, cRecord.getTransactionType());
+			pstmt.setInt(++index, fileType);
+			pstmt.setString(++index, cRecord.getStatus());
+			pstmt.setString(++index, cRecord.getDocumentNumber());
+			pstmt.setLong(++index, fileSrNo);
+			
+			pstmt.addBatch();
+			
+			}
+			
+		int[] results = 	pstmt.executeBatch();
+			  			 
+		LGR.info(LGR.isInfoEnabled()? "End of method persistFile file srno with number of entries being updated : " + results : null);
+		
+		}catch(SQLException sqle){
+				LGR.error("SQLException in  persistCreditEntryRecord ---> Error code : " + sqle.getErrorCode(), sqle);
+				CommonUtils.logSqlException(LGR, sqle);
+			}catch( Exception  ex){
+				LGR.error("##Exception## in persist file" , ex);
+				}
+			finally
+			{
+				CommonUtils.returnConnection(conn);
+				CommonUtils.closeResultSet(rs);
+				CommonUtils.closeStatement(pstmt);
+			}
 	}
 }

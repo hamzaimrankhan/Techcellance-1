@@ -58,7 +58,7 @@ public class EmailGenerationHandler {
 		messageBody.append(Constants.NextLine);
 		messageBody.append("Total Error Records :" +records.size());
 		messageBody.append(Constants.NextLine);
-		messageBody.append("Record Number of failed records:"  +CommonUtils.getDocumentNumbner(records) );
+		messageBody.append("Documents Number of missing MID agent records:"  + CommonUtils.getDocumentNumbner(records) );
 		messageBody.append(Constants.NextLine);
 		messageBody.append(emailInformation.getEmailFooter());
 		emailInformation.setEmailBody(messageBody.toString());

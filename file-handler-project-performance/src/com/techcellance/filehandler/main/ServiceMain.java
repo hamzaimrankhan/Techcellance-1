@@ -21,7 +21,7 @@ public class ServiceMain {
 		try
 		{
 			
-			LGR.info(LGR.isInfoEnabled()? "COMO File Handler Service :: Revision Date : 24-08-2019 12:40": null );	
+			LGR.info(LGR.isInfoEnabled()? "COMO File Handler Service :: Revision Date : 03-09-2019 09:01": null );	
 			LGR.info(LGR.isInfoEnabled()?"Going to load congiurations from configuration file for startup and initialization":null);
 			
 			if(!StartupComoFileConfiguration.loadConfigurations()){
