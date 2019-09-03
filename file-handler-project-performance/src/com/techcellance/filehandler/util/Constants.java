@@ -64,12 +64,14 @@ public class Constants {
 	public static Integer BIN_RECORD_BATCH_SIZE= 40;
 	public static int MERCHANT_RECORD_BATCH_SIZE = 100;
 	public static int MID_FILE_NO_OF_DAYS = 0;
+	public static int BIN_FILE_NO_OF_DAYS = 0;
 	public static final int CARD_BIN_LENGTH = 11;
 	public static final String NextLine = "\n";
 	public static final String GEN_EMAIL_FAILED_RECORD = "GEN_EMAIL_FAILED_RECORD";
 	public static final String GEN_EMAIL_SYSTEM_EXCEPTION = "GEN_EMAIL_SYSTEM_EXCEPTION";
 	public static final String GEN_EMAIL_MISSING_MID_AGENT = "GEN_EMAIL_MISSING_MID_AGENT";
 	public static final String PARAM_ID_MID_FILE_NO_OF_DAYS = "MID_FILE_NO_OF_DAYS";
-	public static final String CREDIT_TRANS_APPENDER = "R"; 
-	
+	public static final String PARAM_ID_BIN_FILE_NO_OF_DAYS = "BIN_FILE_NO_OF_DAYS";
+	public static final String CREDIT_TRANS_APPENDER = "R";
+	 
 }

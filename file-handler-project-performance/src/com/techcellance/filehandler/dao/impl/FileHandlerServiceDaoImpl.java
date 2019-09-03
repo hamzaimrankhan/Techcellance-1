@@ -1,5 +1,7 @@
 package com.techcellance.filehandler.dao.impl;
 
+import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -97,7 +99,7 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 	}
 
 	@Override
-	public Long persistFile(String fileName) {
+	public Long persistFile(String fileName) throws IOException, PropertyVetoException, Exception{
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -128,12 +130,7 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 		}catch(SQLException sqle){
 				LGR.error("SQLException in fetchCurrentFollowMeCard ---> Error code : " + sqle.getErrorCode(), sqle);
 				CommonUtils.logSqlException(LGR, sqle);
-		}catch( Exception ex){
-				LGR.error("##Exception## in persist file" , ex);
-		}
-		
-			finally
-			{
+		}finally{
 			
 				CommonUtils.closeResultSet(rs);
 				CommonUtils.closeStatement(pstmt);
@@ -458,6 +455,8 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 						Constants.MERCHANT_RECORD_BATCH_SIZE = Integer.parseInt(rs.getString(++index));
 					}else if(Constants.PARAM_ID_MID_FILE_NO_OF_DAYS.equalsIgnoreCase(param_id)) {
 						Constants.MID_FILE_NO_OF_DAYS = Integer.parseInt(rs.getString(++index));
+					}else if(Constants.PARAM_ID_BIN_FILE_NO_OF_DAYS.equalsIgnoreCase(param_id)) {
+						Constants.BIN_FILE_NO_OF_DAYS = Integer.parseInt(rs.getString(++index));
 					}
 				}
 				

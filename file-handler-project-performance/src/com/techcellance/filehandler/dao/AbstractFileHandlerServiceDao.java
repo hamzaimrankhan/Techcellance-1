@@ -1,6 +1,7 @@
 package com.techcellance.filehandler.dao;
 
 
+import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,7 @@ public abstract  class AbstractFileHandlerServiceDao {
 	protected  final static String QRY_TRUNCATE_MID_INFORMAITON  = "TRUNCATE mid_file_information";
 	protected  final static String QRY_TRUNCATE_BIN_INFORMATION  = "TRUNCATE bin_file_information";
 	public abstract List<FileConfiguration> fetchComoFileConfigurations();
-	public abstract Long persistFile(String fileName);
+	public abstract Long persistFile(String fileName) throws SQLException, PropertyVetoException, Exception;
 	public abstract void persistCreditEntryRecord(int fileType,Long fileSrno,List<CreditBatchEntryRecord> cRecords);
 	public abstract boolean updateFile(String fileName, Long fileSrNo ,AtomicInteger successFulRecordCount,AtomicInteger failedRecordCount,String fileStatus);
 	public abstract void populateWorldPayConfiguration() throws SQLException, Exception;

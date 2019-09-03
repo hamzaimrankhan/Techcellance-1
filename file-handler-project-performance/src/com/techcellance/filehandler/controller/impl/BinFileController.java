@@ -33,6 +33,7 @@ public class BinFileController extends AbstractFileController {
 	
 	public BinFileController(FileConfiguration fileConfiguration) {
 		this.fileConfiguration = fileConfiguration ; 
+		this.fileConfiguration.setnDaysBeforeFile(Constants.BIN_FILE_NO_OF_DAYS);
 	}
 
 	@Override
