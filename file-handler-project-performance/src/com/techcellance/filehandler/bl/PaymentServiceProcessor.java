@@ -632,13 +632,15 @@ public class PaymentServiceProcessor {
 	
 		AbstractFileHandlerServiceDao dao = AbstractFileHandlerServiceDao.getInstance(); 
 		validateRecordMandatoryInfo(entry);
-		if(!Constants.ORPHAN_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())) {
-			isAgentCodePopulated = dao.populateAgentCodeInformation(entry);			
+		if(Constants.ORPHAN_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())) {
+			entry.setStatus(Constants.SUCCESSFUL_STATUS);
+		}
+		else{
+			isAgentCodePopulated = dao.populateAgentCodeInformation(entry);				
 		}
 		
-		if(isAgentCodePopulated){
+		if(isAgentCodePopulated || Constants.ORPHAN_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())){
 			
-		
 		LGR.info(LGR.isInfoEnabled()? "Going to generate XML request for entry with document number: " +  entry.getDocumentNumber() +  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()):null);
 		String xmlRequest =generateXMLRequest(entry);
 		LGR.debug(LGR.isDebugEnabled()? "XML request generated for entry record with document number: " +  entry.getDocumentNumber() +  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()) + "is \n" + xmlRequest  :null);
@@ -693,13 +695,6 @@ public class PaymentServiceProcessor {
 	private void validateRecordMandatoryInfo(CreditBatchEntryRecord entry) throws Exception{
 		
 		if(!CommonUtils.isNullObject(entry)){
-			
-//for the time being commented till next email order (08-10-2019)
-//			if(CommonUtils.isNullOrEmptyString(entry.getAmmount()) ){
-//				entry.getMissingMandatoryInfos().add(EntryRecordAttribute.Ammount.name());
-//			}if(CommonUtils.isNullOrEmptyString(entry.getCurrency())){
-//				entry.getMissingMandatoryInfos().add(EntryRecordAttribute.Currency.name());
-//			}
 			if(CommonUtils.isNullOrEmptyString(entry.getCardNumber())){
 				entry.getMissingMandatoryInfos().add(EntryRecordAttribute.CardNumber.name());
 			}
