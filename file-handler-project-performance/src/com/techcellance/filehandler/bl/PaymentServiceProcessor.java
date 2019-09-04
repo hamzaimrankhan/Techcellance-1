@@ -630,12 +630,14 @@ public class PaymentServiceProcessor {
 		if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType()) || Constants.CREDIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())) {
 	
 		AbstractFileHandlerServiceDao dao = AbstractFileHandlerServiceDao.getInstance(); 
+		
 		validateRecordMandatoryInfo(entry);
-		if(Constants.ORPHAN_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())) {
-			entry.setStatus(Constants.SUCCESSFUL_STATUS);
+		
+		if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())){
+			dao.populateAgentCodeInformation(entry);						
 		}
 		else{
-			dao.populateAgentCodeInformation(entry);				
+			entry.setStatus(Constants.SUCCESSFUL_STATUS);
 		}
 		
 		if(Constants.SUCCESSFUL_STATUS.equalsIgnoreCase(entry.getStatus())){
@@ -696,18 +698,23 @@ public class PaymentServiceProcessor {
 		if(!CommonUtils.isNullObject(entry)){
 			if(CommonUtils.isNullOrEmptyString(entry.getCardNumber())){
 				entry.getMissingMandatoryInfos().add(EntryRecordAttribute.CardNumber.name());
+				LGR.debug(LGR.isDebugEnabled()?"Entry with documnent number= " + entry.getDocumentNumber() + " , missing card number"  :null );
 			}
 			if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType()) && CommonUtils.isNullOrEmptyString(entry.getExpiry())){
 				entry.getMissingMandatoryInfos().add(EntryRecordAttribute.Expiry.name());		
+				LGR.debug(LGR.isDebugEnabled()?"Entry with documnent number= " + entry.getDocumentNumber() + " , missing expiry date"  :null );
+				
 			}if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType()) &&  CommonUtils.isNullOrEmptyString(entry.getApprovalCode())){
 				entry.getMissingMandatoryInfos().add(EntryRecordAttribute.ApprovalCode.name());	
+				LGR.debug(LGR.isDebugEnabled()?"Entry with documnent number= " + entry.getDocumentNumber() + " , missing approval code"  :null );
+				
 			}if(!CommonUtils.isNullOrEmptyCollection(entry.getMissingMandatoryInfos())){
 				entry.setTransactionType(Constants.ORPHAN_TRANSACTION);
-			}
-			
+				LGR.debug(LGR.isDebugEnabled()?"Entry with documnent number= " + entry.getDocumentNumber() + " , is an orpahn transaction"  :null );
+
 		}else{
 			LGR.warn(LGR.isWarnEnabled() ? "Entry record is null or empty in the method validateRecordMandatoryInfo " :null);
 		}
 	}
- 	
+	}
 }

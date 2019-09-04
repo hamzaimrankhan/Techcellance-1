@@ -172,7 +172,6 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 			pstmt.setString(++index, CommonUtils.getMaskedCardNumber(cRecord.getCardNumber()));
 			pstmt.setString(++index, cRecord.getDocumentNumber());
 			pstmt.setString(++index, cRecord.getCardType());
-			pstmt.setString(++index, cRecord.getApprovalCode());
 			pstmt.setString(++index, cRecord.getPassenger());
 			pstmt.setString(++index, cRecord.getAmmount());
 			pstmt.setString(++index, cRecord.getTicketCode());
@@ -637,7 +636,6 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 		ResultSet rs = null;
 		int index = 0;
 		Connection conn = null ;
-		boolean isAgentCodePopulated = false;
 		try {		
 				LGR.info(LGR.isInfoEnabled()? "In method fetchAgentCodeInformation " : null);	
 				conn=DatabaseConnectionPool.getInstance().getConnection() ;
@@ -658,15 +656,15 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 					record.setLegalPostalCode(rs.getString(++index));
 					record.setLegalCountryCode(rs.getString(++index));
 					record.setStatus(Constants.SUCCESSFUL_STATUS);					
-					isAgentCodePopulated = true; 
-				}else {
+					LGR.debug(LGR.isDebugEnabled()?"MID information found for entry with document  number= " + record.getDocumentNumber() + ", with mid lookup code=  " + record.getMidLookUpCode() : null);
+				}
+				else {
 					record.setStatus(Constants.IN_PROGRESS);
-					isAgentCodePopulated = false;
 				}
 				
 				LGR.info(LGR.isInfoEnabled()? "End of method fetchAgentCodeInformation ": null);
 			
-			return isAgentCodePopulated; 
+			return Constants.SUCCESSFUL_STATUS.equalsIgnoreCase(record.getStatus()); 
 		
 		} finally {
 			CommonUtils.closeStatement(pstmt);
@@ -816,7 +814,6 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 			pstmt.setString(++index, cRecord.getResponseDescription());
 			pstmt.setString(++index, CommonUtils.getMaskedCardNumber(cRecord.getCardNumber()));
 			pstmt.setString(++index, cRecord.getCardType());
-			pstmt.setString(++index, cRecord.getApprovalCode());
 			pstmt.setString(++index, cRecord.getPassenger());
 			pstmt.setString(++index, cRecord.getAmmount());
 			pstmt.setString(++index, cRecord.getTicketCode());
