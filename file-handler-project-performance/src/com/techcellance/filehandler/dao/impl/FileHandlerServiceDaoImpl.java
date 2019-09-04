@@ -199,15 +199,14 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 			pstmt.setString(++index, cRecord.getTransactionType());
 			pstmt.setInt(++index, fileType);
 			pstmt.setString(++index, cRecord.getStatus());
-			
 			pstmt.addBatch();
 			
 			}
 			
 			pstmt.executeBatch();
 			  			 
+			
 		LGR.info(LGR.isInfoEnabled()? "End of method persistFile file srno " : null);
-		
 		}catch(SQLException sqle){
 				LGR.error("SQLException in  persistCreditEntryRecord ---> Error code : " + sqle.getErrorCode(), sqle);
 				CommonUtils.logSqlException(LGR, sqle);

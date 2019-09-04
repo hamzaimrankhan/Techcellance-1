@@ -627,7 +627,6 @@ public class PaymentServiceProcessor {
 	
 		try {
 		
-		boolean isAgentCodePopulated = false;	
 		if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType()) || Constants.CREDIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())) {
 	
 		AbstractFileHandlerServiceDao dao = AbstractFileHandlerServiceDao.getInstance(); 
@@ -636,10 +635,10 @@ public class PaymentServiceProcessor {
 			entry.setStatus(Constants.SUCCESSFUL_STATUS);
 		}
 		else{
-			isAgentCodePopulated = dao.populateAgentCodeInformation(entry);				
+			dao.populateAgentCodeInformation(entry);				
 		}
 		
-		if(isAgentCodePopulated || Constants.ORPHAN_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())){
+		if(Constants.SUCCESSFUL_STATUS.equalsIgnoreCase(entry.getStatus())){
 			
 		LGR.info(LGR.isInfoEnabled()? "Going to generate XML request for entry with document number: " +  entry.getDocumentNumber() +  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()):null);
 		String xmlRequest =generateXMLRequest(entry);
