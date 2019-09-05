@@ -62,7 +62,7 @@ public class EmailGenerationHandler {
 		messageBody.append(Constants.NextLine);
 		messageBody.append(emailInformation.getEmailFooter());
 		emailInformation.setEmailBody(messageBody.toString());
-		LGR.debug(LGR.isDebugEnabled() ? "Generated email body for missing mid agent information"  + messageBody.toString()   : null );
+		LGR.debug(LGR.isDebugEnabled() ? "Generated email body for missing mid agent information" + Constants.NextLine  + messageBody.toString()   : null );
 
 		emailInformation.setEmailSubject(emailInformation.getEmailSubject().concat("["+ fileName +"]"));		
 	}
@@ -89,7 +89,7 @@ public class EmailGenerationHandler {
 		messageBody.append(emailInformation.getEmailFooter());
 		emailInformation.setEmailBody(messageBody.toString());
 		
-		LGR.debug(LGR.isDebugEnabled() ? "Generated email body for missing mandatory information: "  + messageBody.toString()   : null );
+		LGR.debug(LGR.isDebugEnabled() ? "Generated email body for missing mandatory information: "+ Constants.NextLine  + messageBody.toString()   : null );
 
 		emailInformation.setEmailSubject(emailInformation.getEmailSubject().concat("["+ fileName +"]"));
 		

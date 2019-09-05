@@ -712,9 +712,11 @@ public class PaymentServiceProcessor {
 				entry.setTransactionType(Constants.ORPHAN_TRANSACTION);
 				LGR.debug(LGR.isDebugEnabled()?"Entry with documnent number= " + entry.getDocumentNumber() + " , is an orpahn transaction"  :null );
 
-		}else{
-			LGR.warn(LGR.isWarnEnabled() ? "Entry record is null or empty in the method validateRecordMandatoryInfo " :null);
 		}
-	}
+		
+		}else{
+		LGR.warn(LGR.isWarnEnabled() ? "Entry record is null or empty in the method validateRecordMandatoryInfo " :null);
+		}
+		
 	}
 }
