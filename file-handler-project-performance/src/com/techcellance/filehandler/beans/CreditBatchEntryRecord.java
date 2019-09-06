@@ -48,6 +48,7 @@ public class CreditBatchEntryRecord implements Serializable{
 	private String midLookUpCode  = null ;
 	private String status = null; 
 	private List<String> missingMandatoryInfos = null; 
+	private String merchantCode = null;
 	private CreditBatchEntryAdditionalInformation entryAdditionalInformation = new CreditBatchEntryAdditionalInformation(); 
 	
 	
@@ -292,6 +293,12 @@ public class CreditBatchEntryRecord implements Serializable{
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getMerchantCode() {
+		return merchantCode;
+	}
+	public void setMerchantCode(String merchantCode) {
+		this.merchantCode = merchantCode;
 	}
 
 }

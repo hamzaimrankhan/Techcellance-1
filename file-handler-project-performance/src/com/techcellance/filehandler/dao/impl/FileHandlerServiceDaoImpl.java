@@ -636,6 +636,7 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 		ResultSet rs = null;
 		int index = 0;
 		Connection conn = null ;
+		Long cardNum = null;
 		try {		
 				LGR.info(LGR.isInfoEnabled()? "In method fetchAgentCodeInformation " : null);	
 				conn=DatabaseConnectionPool.getInstance().getConnection() ;
@@ -644,7 +645,9 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 				pstmt.setString(++index, "%" + record.getCurrency()+ "%");
 				pstmt.setString(++index,record.getCountryCode());
 				pstmt.setString(++index, record.getMerchantAgreementId());
-				pstmt.setLong(++index, CommonUtils.getFirstElevenDigitOfCardNumber(record.getCardNumber()));
+				cardNum = CommonUtils.getFirstElevenDigitOfCardNumber(record.getCardNumber());
+				pstmt.setLong(++index, cardNum);
+				pstmt.setLong(++index, cardNum);
 				
 				rs = pstmt.executeQuery();
 				
@@ -655,6 +658,7 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 					record.setLegalEntityCity(rs.getString(++index));
 					record.setLegalPostalCode(rs.getString(++index));
 					record.setLegalCountryCode(rs.getString(++index));
+					record.setMerchantCode(rs.getString(++index));
 					record.setStatus(Constants.SUCCESSFUL_STATUS);					
 					LGR.debug(LGR.isDebugEnabled()?"MID information found for entry with document  number= " + record.getDocumentNumber() + ", with mid lookup code=  " + record.getMidLookUpCode() : null);
 				}

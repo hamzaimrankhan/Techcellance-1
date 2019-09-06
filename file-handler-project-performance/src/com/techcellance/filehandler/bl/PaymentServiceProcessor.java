@@ -118,7 +118,7 @@ public class PaymentServiceProcessor {
          attr.setValue("1.4");  // version value
          paymentService.setAttributeNode(attr);
          attr = document.createAttribute("merchantCode"); //merchant code 
-         attr.setValue(Constants.MERCHANT_CODE);
+         attr.setValue(!CommonUtils.isNullOrEmptyString(entry.getMerchantCode()) ? entry.getMerchantCode() :Constants.MERCHANT_CODE);
          paymentService.setAttributeNode(attr);
          
          Element submit = document.createElement("submit");
@@ -459,7 +459,7 @@ public class PaymentServiceProcessor {
          attr.setValue("1.4");  // version value
          paymentService.setAttributeNode(attr);
          attr = document.createAttribute("merchantCode"); //merchant code 
-         attr.setValue(Constants.MERCHANT_CODE);
+         attr.setValue(!CommonUtils.isNullOrEmptyString(entry.getMerchantCode()) ? entry.getMerchantCode() :Constants.MERCHANT_CODE);
          paymentService.setAttributeNode(attr);
          
          Element submit = document.createElement("submit");
@@ -565,7 +565,7 @@ public class PaymentServiceProcessor {
 		attr.setValue("1.4"); // version value
 		paymentService.setAttributeNode(attr);
 		attr = document.createAttribute("merchantCode"); // merchant code
-		attr.setValue(Constants.MERCHANT_CODE);
+		attr.setValue(!CommonUtils.isNullOrEmptyString(entry.getMerchantCode()) ? entry.getMerchantCode() :Constants.MERCHANT_CODE);
 		paymentService.setAttributeNode(attr);
 
 		Element submit = document.createElement("submit");
@@ -633,12 +633,7 @@ public class PaymentServiceProcessor {
 		
 		validateRecordMandatoryInfo(entry);
 		
-		if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType())){
-			dao.populateAgentCodeInformation(entry);						
-		}
-		else{
-			entry.setStatus(Constants.SUCCESSFUL_STATUS);
-		}
+		dao.populateAgentCodeInformation(entry);						
 		
 		if(Constants.SUCCESSFUL_STATUS.equalsIgnoreCase(entry.getStatus())){
 			
