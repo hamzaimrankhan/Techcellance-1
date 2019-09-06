@@ -20,8 +20,10 @@ public class FileConfiguration implements Serializable {
 	private Date   scheduledDateTme = null;
 	private String description = null;
 	private String fileNameConvention =null;
+	private String cronExpression=null;
 	private int nDaysBeforeFile = 0 ; 
- 	public int getSerialNo() {
+ 	
+	public int getSerialNo() {
 		return serialNo;
 	}
 	public void setSerialNo(int serialNo) {
@@ -100,6 +102,12 @@ public class FileConfiguration implements Serializable {
 	}
 	public void setFileNameConvention(String fileNameConvention) {
 		this.fileNameConvention = fileNameConvention;
+	}
+	public String getCronExpression() {
+		return cronExpression;
+	}
+	public void setCronExpression(String cronExpression) {
+		this.cronExpression = cronExpression;
 	}
 	public int getnDaysBeforeFile() {
 		return nDaysBeforeFile;

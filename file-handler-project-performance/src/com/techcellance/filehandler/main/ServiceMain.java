@@ -16,11 +16,8 @@ public class ServiceMain {
 	
 	private static Logger LGR = LogManager.getLogger(ServiceMain.class);
 	
-	public static void main(String[] args)
-	{
-		try
-		{
-			
+	public static void main(String[] args) {
+		try {
 			LGR.info(LGR.isInfoEnabled()? "COMO File Handler Service :: Revision Date : 05-09-2019 08:55": null );	
 			LGR.info(LGR.isInfoEnabled()?"Going to load congiurations from configuration file for startup and initialization":null);
 			
@@ -30,22 +27,20 @@ public class ServiceMain {
 			}	
 			
 			LGR.info(LGR.isInfoEnabled()? "All Configurations from congfig.ini loaded sucessfully" :null);
-			LGR.info("Going to execute the file handler service...");
+			
+			LGR.info("Going to schedule service Service execution handlers...");
 			ServiceExecutionHandler.execute();
-			LGR.info(LGR.isInfoEnabled()? "Service execution handler completed the task successfully" :null);
+			LGR.info(LGR.isInfoEnabled()? "Service execution handler scheduled successfully" :null);
 		}
-		catch(Exception e)
-		{
+		catch(Exception e) {
 			LGR.error("Exception occurred in ServiceMain.main() in file handler service", e);
 			//genemail
 			System.exit(-1);
-		}finally {
-			
-			System.exit(-1);
+		}
+		finally {
+			//System.exit(-1);
 		}
 	}
-	
-	
 }
 
 

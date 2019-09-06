@@ -40,7 +40,7 @@ public abstract  class AbstractFileHandlerServiceDao {
 //		
 //	}
 	
-	protected  final static String QRY_FETCH_COMO_FILE_CONFIGURATIONS = "select file_type, sftp_url, source_path, sftp_port, sftp_user, dest_path, sftp_password, scheduled_date_time,description,file_name_convention from como_file_configurations order by file_type desc";
+	protected  final static String QRY_FETCH_COMO_FILE_CONFIGURATIONS = "select file_type, sftp_url, source_path, sftp_port, sftp_user, dest_path, sftp_password, scheduled_date_time,description,file_name_convention,cron_expression from como_file_configurations order by file_type desc";
 	protected  final static String QRY_INSERT_CREDIT_FILES = "INSERT INTO settlement_files (file_name, total_successfull_record, total_failed_records, status,recieved_at) VALUES (?,?, ?, ?, ?)";
 	protected  final static String QRY_UPDATE_CREDIT_FILES = "UPDATE settlement_files SET total_successfull_record = ?, total_failed_records = ? , status = ? WHERE (file_sr_no = ?)";
 	protected  final static String QRY_INSERT_CREDIT_ENTRY_RECORD = "INSERT INTO credit_entry_record(invoice_number, agent_code, authorization_id, response_code, response_description,card_number, document_number, card_type, passenger, amount, ticket_code, currency, passenger_code ,ariline_code, departure_airport, arrival_airport, stop_over_code,flight_code, issuer_city, merchant_agreement_id, invoice_name, airline_name, file_sr_no,invoice_date,batch_no,mid,departure_date,departure_month,tax_amount,ticket_restricted,transaction_type,file_type,status) VALUES (?,?,?,?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";

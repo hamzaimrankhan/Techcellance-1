@@ -24,10 +24,9 @@ import com.techcellance.filehandler.util.Constants;
 import com.techcellance.filehandler.util.FTPUtil;
 
 public class BinFileController extends AbstractFileController {
-
 	
 	private static Logger LGR = LogManager.getLogger(BinFileController.class);
-	private FileConfiguration  fileConfiguration = null; 
+	 
 	AtomicInteger successFulRecordCount = new AtomicInteger(0);
 	AtomicInteger  failedRecordCount = new AtomicInteger(0) ;
 	

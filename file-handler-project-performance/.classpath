@@ -2,12 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="E:/TechCellance/TechCellance/file-handler-project-performance/lib/disruptor-3.4.0.jar"/>
-	<classpathentry kind="lib" path="E:/TechCellance/TechCellance/file-handler-project-performance/lib/log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="E:/TechCellance/TechCellance/file-handler-project-performance/lib/log4j-1.2-api-2.10.0.jar"/>
-	<classpathentry kind="lib" path="E:/TechCellance/TechCellance/file-handler-project-performance/lib/log4j-api-2.10.0.jar"/>
-	<classpathentry kind="lib" path="E:/TechCellance/TechCellance/file-handler-project-performance/lib/log4j-core-2.10.0.jar"/>
-	<classpathentry kind="lib" path="E:/TechCellance/TechCellance/file-handler-project-performance/lib/jsch-0.1.54.jar"/>
+	<classpathentry kind="lib" path="lib/disruptor-3.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2-api-2.10.0.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-api-2.10.0.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-core-2.10.0.jar"/>
+	<classpathentry kind="lib" path="lib/jsch-0.1.54.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections4-4.3.jar"/>
 	<classpathentry kind="lib" path="lib/commons-dbcp2-2.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-pool2-2.6.2.jar"/>
@@ -17,5 +17,8 @@
 	<classpathentry kind="lib" path="lib/java-mail-1.4.4.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.17.jar"/>
 	<classpathentry kind="lib" path="lib/commons-text-1.7.jar"/>
+	<classpathentry kind="lib" path="lib/quartz-2.1.5.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.25.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-simple-1.7.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

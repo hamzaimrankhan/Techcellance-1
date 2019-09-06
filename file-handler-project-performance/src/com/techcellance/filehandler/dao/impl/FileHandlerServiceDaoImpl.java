@@ -72,6 +72,7 @@ private static Logger LGR = LogManager.getLogger(FileHandlerServiceDaoImpl.class
 				fileConfiguration.setScheduledDateTme(rs.getDate(++index));
 				fileConfiguration.setDescription(rs.getString(++index));
 				fileConfiguration.setFileNameConvention(rs.getString(++index));
+				fileConfiguration.setCronExpression(rs.getString(++index));
 				LGR.info(LGR.isInfoEnabled()? "File Cofiguration : \n " + fileConfiguration.toString(): null);
 				fileConfigurations.add(fileConfiguration);
 			}
