@@ -118,7 +118,7 @@ public class PaymentServiceProcessor {
          attr.setValue("1.4");  // version value
          paymentService.setAttributeNode(attr);
          attr = document.createAttribute("merchantCode"); //merchant code 
-         attr.setValue(!CommonUtils.isNullOrEmptyString(entry.getMerchantCode()) ? entry.getMerchantCode() :Constants.MERCHANT_CODE);
+         attr.setValue(entry.getMerchantCode());
          paymentService.setAttributeNode(attr);
          
          Element submit = document.createElement("submit");
@@ -459,7 +459,7 @@ public class PaymentServiceProcessor {
          attr.setValue("1.4");  // version value
          paymentService.setAttributeNode(attr);
          attr = document.createAttribute("merchantCode"); //merchant code 
-         attr.setValue(!CommonUtils.isNullOrEmptyString(entry.getMerchantCode()) ? entry.getMerchantCode() :Constants.MERCHANT_CODE);
+         attr.setValue( entry.getMerchantCode());
          paymentService.setAttributeNode(attr);
          
          Element submit = document.createElement("submit");
@@ -565,7 +565,7 @@ public class PaymentServiceProcessor {
 		attr.setValue("1.4"); // version value
 		paymentService.setAttributeNode(attr);
 		attr = document.createAttribute("merchantCode"); // merchant code
-		attr.setValue(!CommonUtils.isNullOrEmptyString(entry.getMerchantCode()) ? entry.getMerchantCode() :Constants.MERCHANT_CODE);
+		attr.setValue( entry.getMerchantCode());
 		paymentService.setAttributeNode(attr);
 
 		Element submit = document.createElement("submit");
@@ -631,7 +631,7 @@ public class PaymentServiceProcessor {
 	
 		AbstractFileHandlerServiceDao dao = AbstractFileHandlerServiceDao.getInstance(); 
 		
-		validateRecordMandatoryInfo(entry);
+		if(validateRecordMandatoryInfo(entry)) {
 		
 		dao.populateAgentCodeInformation(entry);						
 		
@@ -656,6 +656,16 @@ public class PaymentServiceProcessor {
 			
 			LGR.info(LGR.isInfoEnabled()?"MID Agent code not found in the data repository for order number : " + entry.getDocumentNumber() +  " and card number:  "  + CommonUtils.getMaskedCardNumber(entry.getCardNumber()) : null);
 		}
+		
+		
+		
+		
+		}else{
+			LGR.info(LGR.isInfoEnabled()? "Going to skip the trnsaction for missing mandatory field  with order number" + entry.getDocumentNumber() :null);
+			
+		}
+		
+		
 		
 		}else {
 			
@@ -688,30 +698,33 @@ public class PaymentServiceProcessor {
 		return xmlRequest;
 	}
 
-	private void validateRecordMandatoryInfo(CreditBatchEntryRecord entry) throws Exception{
+	private boolean validateRecordMandatoryInfo(CreditBatchEntryRecord entry) throws Exception{
 		
 		if(!CommonUtils.isNullObject(entry)){
-			if(CommonUtils.isNullOrEmptyString(entry.getCardNumber())){
-				entry.getMissingMandatoryInfos().add(EntryRecordAttribute.CardNumber.name());
-				LGR.debug(LGR.isDebugEnabled()?"Entry with documnent number= " + entry.getDocumentNumber() + " , missing card number"  :null );
+			if(CommonUtils.isNullOrEmptyString(entry.getCardNumber()) || CommonUtils.isNullOrEmptyString(entry.getCountryCode()) || CommonUtils.isNullOrEmptyString(entry.getCurrency()) ){
+				LGR.debug(LGR.isDebugEnabled()?"Entry with documnent number= " + entry.getDocumentNumber() + " , missing card number or country code or currency"  :null );
+				return false;
 			}
-			if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType()) && CommonUtils.isNullOrEmptyString(entry.getExpiry())){
+			
+		if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType()) && CommonUtils.isNullOrEmptyString(entry.getExpiry())){
 				entry.getMissingMandatoryInfos().add(EntryRecordAttribute.Expiry.name());		
 				LGR.debug(LGR.isDebugEnabled()?"Entry with documnent number= " + entry.getDocumentNumber() + " , missing expiry date"  :null );
 				
-			}if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType()) &&  CommonUtils.isNullOrEmptyString(entry.getApprovalCode())){
+		}if(Constants.DEBIT_TRANSACTION.equalsIgnoreCase(entry.getTransactionType()) &&  CommonUtils.isNullOrEmptyString(entry.getApprovalCode())){
 				entry.getMissingMandatoryInfos().add(EntryRecordAttribute.ApprovalCode.name());	
 				LGR.debug(LGR.isDebugEnabled()?"Entry with documnent number= " + entry.getDocumentNumber() + " , missing approval code"  :null );
 				
-			}if(!CommonUtils.isNullOrEmptyCollection(entry.getMissingMandatoryInfos())){
+		}if(!CommonUtils.isNullOrEmptyCollection(entry.getMissingMandatoryInfos())){
 				entry.setTransactionType(Constants.ORPHAN_TRANSACTION);
 				LGR.debug(LGR.isDebugEnabled()?"Entry with documnent number= " + entry.getDocumentNumber() + " , is an orpahn transaction"  :null );
 
 		}
-		
 		}else{
-		LGR.warn(LGR.isWarnEnabled() ? "Entry record is null or empty in the method validateRecordMandatoryInfo " :null);
+		
+			LGR.warn(LGR.isWarnEnabled() ? "Entry record is null or empty in the method validateRecordMandatoryInfo " :null);
+			return false ;
 		}
 		
+		return true; 
 	}
 }

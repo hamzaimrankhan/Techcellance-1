@@ -129,35 +129,31 @@ public class MidFileReaderTask extends AbstractFileReaderTask {
 		FailedEntryInfo fInfo =  new FailedEntryInfo(); ;
 		boolean isValidRecord = true;
 		
+		if(CommonUtils.isNullOrEmptyString(merchantInformation.getMerchantCode())) {
+			fInfo.getMissingColumns().add("MerchantCode");
+		}
 		if(CommonUtils.isNullOrEmptyString(merchantInformation.getAcquirerAccount())){
 			fInfo.getMissingColumns().add("AcquirerAccount");
 		}
 		if (CommonUtils.isNullOrEmptyString(merchantInformation.getiATANumericalCarrierCode())) {
-
 			fInfo.getMissingColumns().add("IATANumericalCarrierCode");
 		}
 		if (CommonUtils.isNullOrEmptyString(merchantInformation.getAccAccountCountryCode())) {
-
 			fInfo.getMissingColumns().add("AccAccountCountryCode");
 		}
 		if (CommonUtils.isNullOrEmptyString(merchantInformation.getCurrencyCode())) {
-
 			fInfo.getMissingColumns().add("CurrencyCode");
 		}
 		if (CommonUtils.isNullOrEmptyString(merchantInformation.getPaymentMethod())) {
-
 			fInfo.getMissingColumns().add("PaymentMethod");
 		}
 		if (CommonUtils.isNullOrEmptyString(merchantInformation.getLegalEntityAddress1())) {
-
 			fInfo.getMissingColumns().add("LegalEntityAddress1");
 		}
 		if (CommonUtils.isNullOrEmptyString(merchantInformation.getLegalEntityCity())) {
-
 			fInfo.getMissingColumns().add("LegalEntityCity");
 		}
 		if (CommonUtils.isNullOrEmptyString(merchantInformation.getLegalentityPostCode())) {
-
 			fInfo.getMissingColumns().add("LegalentityPostCode");
 		}
 		if (CommonUtils.isNullOrEmptyString(merchantInformation.getCountryCode())) {
